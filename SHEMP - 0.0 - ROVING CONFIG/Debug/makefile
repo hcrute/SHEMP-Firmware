@@ -4,7 +4,7 @@
 
 SHELL = cmd.exe
 
-CG_TOOL_ROOT := C:/ti/ccsv5/tools/compiler/msp430_4.2.1
+CG_TOOL_ROOT := c:/ti/ccsv6/tools/compiler/msp430_4.3.1
 
 ORDERED_OBJS += \
 $(GEN_CMDS__FLAG) \
@@ -109,6 +109,12 @@ endif
 -include ../makefile.defs
 
 # Add inputs and outputs from these tool invocations to the build variables 
+EXE_OUTPUTS += \
+SHEMP\ -\ 0.0\ -\ ROVING\ CONFIG.out \
+
+EXE_OUTPUTS__QUOTED += \
+"SHEMP - 0.0 - ROVING CONFIG.out" \
+
 
 # All Target
 all: SHEMP\ -\ 0.0\ -\ ROVING\ CONFIG.out
@@ -117,13 +123,13 @@ all: SHEMP\ -\ 0.0\ -\ ROVING\ CONFIG.out
 SHEMP\ -\ 0.0\ -\ ROVING\ CONFIG.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: MSP430 Linker'
-	"C:/ti/ccsv5/tools/compiler/msp430_4.2.1/bin/cl430" -vmspx --abi=coffabi -g --define=__MSP430F5438A__ --diag_warning=225 --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --printf_support=minimal -z -m"SHEMP - 0.0 - ROVING CONFIG.map" --stack_size=160 --heap_size=160 --use_hw_mpy=F5 -i"C:/ti/ccsv5/ccs_base/msp430/include" -i"C:/ti/ccsv5/tools/compiler/msp430_4.2.1/lib" -i"C:/ti/ccsv5/tools/compiler/msp430_4.2.1/include" --reread_libs --warn_sections --xml_link_info="SHEMP - 0.0 - ROVING CONFIG_linkInfo.xml" --rom_model -o "SHEMP - 0.0 - ROVING CONFIG.out" $(ORDERED_OBJS)
+	"c:/ti/ccsv6/tools/compiler/msp430_4.3.1/bin/cl430" -vmspx --abi=coffabi -g --define=__MSP430F5438A__ --diag_warning=225 --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --printf_support=minimal -z -m"SHEMP - 0.0 - ROVING CONFIG.map" --stack_size=160 --heap_size=160 --use_hw_mpy=F5 -i"c:/ti/ccsv6/ccs_base/msp430/include" -i"c:/ti/ccsv6/tools/compiler/msp430_4.3.1/lib" -i"c:/ti/ccsv6/tools/compiler/msp430_4.3.1/include" --reread_libs --warn_sections --xml_link_info="SHEMP - 0.0 - ROVING CONFIG_linkInfo.xml" --rom_model -o "SHEMP - 0.0 - ROVING CONFIG.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(MSP430_EXECUTABLE_OUTPUTS__QUOTED) "SHEMP - 0.0 - ROVING CONFIG.out"
+	-$(RM) $(EXE_OUTPUTS__QUOTED)
 	-$(RM) "hal_pmm.pp" "main.pp" "uart.pp" 
 	-$(RM) "hal_pmm.obj" "main.obj" "uart.obj" 
 	-@echo 'Finished clean'

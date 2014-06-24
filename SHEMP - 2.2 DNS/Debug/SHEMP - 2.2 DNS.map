@@ -1,7 +1,7 @@
 ******************************************************************************
-                  MSP430 Linker PC v4.2.1                      
+                  MSP430 Linker PC v4.3.1                      
 ******************************************************************************
->> Linked Mon Nov 25 15:24:06 2013
+>> Linked Tue Jun 24 12:59:39 2014
 
 OUTPUT FILE NAME:   <SHEMP - 2.2 DNS.out>
 ENTRY POINT SYMBOL: "_c_int00"  address: 00005cee
@@ -19,7 +19,7 @@ MEMORY CONFIGURATION
   INFOB                 00001900   00000080  00000000  00000080  RWIX
   INFOA                 00001980   00000080  00000000  00000080  RWIX
   RAM                   00001c00   00004000  00003ebe  00000142  RWIX
-  FLASH                 00005c00   0000a380  000056af  00004cd1  RWIX
+  FLASH                 00005c00   0000a380  000056b3  00004ccd  RWIX
   INT00                 0000ff80   00000002  00000000  00000002  RWIX
   INT01                 0000ff82   00000002  00000000  00000002  RWIX
   INT02                 0000ff84   00000002  00000000  00000002  RWIX
@@ -135,278 +135,278 @@ section   page    origin      length       input sections
                   00005d64    00000006     rts430x.lib : memory.obj (.cinit)
                   00005d6a    00000002     --HOLE-- [fill = 0]
 
-.text      0    00005d6c    00004076     
+.text      0    00005d6c    0000407a     
                   00005d6c    00000366     roving.obj (.text:parse_string)
                   000060d2    0000032a     main.obj (.text:parse_shemp_command)
                   000063fc    000002ee     html.obj (.text:parse_http_request)
                   000066ea    000001f6     wattage_sensor.obj (.text:current_on_full)
-                  000068e0    000001dc     main.obj (.text:main)
-                  00006abc    000001cc     wattage_sensor.obj (.text:voltage_on_full)
-                  00006c88    000001ac     time.obj (.text:write_time_to_string)
-                  00006e34    00000192     shempserver.obj (.text:encode_data_and_old_data_for_transmit)
-                  00006fc6    00000152     audio_sensor.obj (.text:create_audio_sensor)
-                  00007118    00000152     shempserver.obj (.text:encode_data_for_transmit)
-                  0000726a    0000014c     sensors.obj (.text:new_one_time_sensor)
-                  000073b6    0000013a     temperature_sensor.obj (.text:create_temperature_sensor)
-                  000074f0    0000012a     sensors.obj (.text:new_sensor)
-                  0000761a    00000108     roving.obj (.text:alert_slaves)
-                  00007722    00000102     leds.obj (.text:run_led_driver)
-                  00007824    000000fe     roving.obj (.text:leave_setup_mode)
-                  00007922    000000f0     wattage_sensor.obj (.text:calculate_wattage)
-                  00007a12    000000d6     roving.obj (.text:do_setup)
-                  00007ae8    000000d0     auxlib.obj (.text:write_int_to_string)
-                  00007bb8    000000ca     hal_pmm.obj (.text:SetVCoreUp)
-                  00007c82    000000c8     light_sensor.obj (.text:create_light_sensor)
-                  00007d4a    000000b8     wattage_sensor.obj (.text:create_internal_wattage_sensor)
-                  00007e02    000000ac     audio_sensor.obj (.text:detect_audio_use)
-                  00007eae    000000ac     html.obj (.text:html_GET)
-                  00007f5a    000000aa     sensors.obj (.text:sensor_delete)
-                  00008004    000000a6     rts430x.lib : memory.obj (.text:malloc)
-                  000080aa    000000a2     roving.obj (.text:handle_roving_input)
-                  0000814c    0000009c     hal_pmm.obj (.text:SetVCoreDown)
-                  000081e8    00000098     wattage_sensor.obj (.text:create_internal_current_sensor)
-                  00008280    00000098     wattage_sensor.obj (.text:create_internal_voltage_sensor)
-                  00008318    00000080     rts430x.lib : memory.obj (.text:free)
-                  00008398    00000080     time.obj (.text:new_time_from_string)
-                  00008418    0000006e     time.obj (.text:fix_time)
-                  00008486    0000006e     wattage_sensor.obj (.text:init_internal_wattage_sensor)
-                  000084f4    00000066     sensors.obj (.text:sample_enabled_sensors)
-                  0000855a    00000064     time.obj (.text:time_set_to_sum)
-                  000085be    0000005a     roving.obj (.text:store_uart_input)
-                  00008618    00000058     rts430x.lib : div32u.obj (.text)
-                  00008670    00000056     roving.obj (.text:add_to_slaves)
-                  000086c6    00000056     time.obj (.text:time_tick)
-                  0000871c    00000054     roving.obj (.text:in_main_mode)
-                  00008770    00000054     main.obj (.text:init_buttons)
-                  000087c4    00000054     shempserver.obj (.text:transmit_header)
-                  00008818    00000052     roving.obj (.text:start_setup_mode)
-                  0000886a    00000050     sensors.obj (.text:store_data_point)
-                  000088ba    00000050     shempserver.obj (.text:transmit_data)
-                  0000890a    0000004e     roving.obj (.text:host_setup_mode)
-                  00008958    0000004e     roving.obj (.text:init_roving)
-                  000089a6    0000004c     sensors.obj (.text:init_adc)
-                  000089f2    0000004a     roving.obj (.text:in_setup_mode)
-                  00008a3c    00000048     rts430x.lib : autoinit.obj (.text:_auto_init)
-                  00008a84    00000048     roving.obj (.text:is_delimiter)
-                  00008acc    00000046     time.obj (.text:time_cmp)
-                  00008b12    00000042     temperature_sensor.obj (.text:fix_temperature)
-                  00008b54    00000040     hal_pmm.obj (.text:SetVCore)
-                  00008b94    00000040     roving.obj (.text:enter_command_mode)
-                  00008bd4    00000040     rts430x.lib : div32s.obj (.text)
-                  00008c14    00000040     roving.obj (.text:send_command_with_arg)
-                  00008c54    0000003e     rts430x.lib : asr32.obj (.text:l_asr_const)
-                  00008c92    0000003e                 : lsr32.obj (.text:l_lsr_const)
-                  00008cd0    0000003a     time.obj (.text:add_time_to_time)
-                  00008d0a    0000003a     leds.obj (.text:blink_fast)
-                  00008d44    0000003a     auxlib.obj (.text:read_number_from_string)
-                  00008d7e    00000038     auxlib.obj (.text:is_valid_string)
-                  00008db6    00000038     rts430x.lib : memory.obj (.text:minit)
-                  00008dee    00000038     linked_list.obj (.text:node_delete)
-                  00008e26    00000038     wattage_sensor.obj (.text:sync_wattage_sensors)
-                  00008e5e    00000036     roving.obj (.text:disconnect)
-                  00008e94    00000036     sensors.obj (.text:enable_sensor)
-                  00008eca    00000036     roving.obj (.text:exit_command_mode)
-                  00008f00    00000036     sensors.obj (.text:handle_full_sensors)
-                  00008f36    00000036     roving.obj (.text:reset_roving)
-                  00008f6c    00000036     time.obj (.text:time_copy)
-                  00008fa2    00000034     audio_sensor.obj (.text:swap_enabled_audio_sensor)
-                  00008fd6    00000032     sensors.obj (.text:handle_adc_interrupt)
-                  00009008    00000030     time.obj (.text:check_time)
-                  00009038    00000030     html.obj (.text:html_write)
-                  00009068    00000030     html.obj (.text:http_write)
-                  00009098    00000030     roving.obj (.text:send_command)
-                  000090c8    00000030     time.obj (.text:time_set_current)
-                  000090f8    0000002e     wattage_sensor.obj (.text:delete_internal_wattage_sensor)
-                  00009126    0000002e     sensors.obj (.text:disable_sensor_args)
-                  00009154    0000002e     linked_list.obj (.text:node_delete_next)
-                  00009182    0000002e     auxlib.obj (.text:string_starts_with)
-                  000091b0    0000002c     events.obj (.text:action_delete)
-                  000091dc    0000002c     main.obj (.text:button2_toggled)
-                  00009208    0000002c     main.obj (.text:init_clock)
-                  00009234    0000002c     rts430x.lib : div16s.obj (.text)
-                  00009260    0000002a     roving.obj (.text:connect)
-                  0000928a    0000002a     time.obj (.text:global_time)
-                  000092b4    0000002a     roving.obj (.text:is_associated)
-                  000092de    0000002a     time.obj (.text:new_time)
-                  00009308    0000002a     leds.obj (.text:prep_leds)
-                  00009332    00000028     wattage_sensor.obj (.text:enable_internal_wattage_sensor)
-                  0000935a    00000028     roving.obj (.text:in_setup_master_mode)
-                  00009382    00000028     shempserver.obj (.text:new_transmit_action)
-                  000093aa    00000028     sensors.obj (.text:sensor_add_action_on_data_full)
-                  000093d2    00000028     time.obj (.text:wait_for)
-                  000093fa    00000026     events.obj (.text:action_delete_list)
-                  00009420    00000024     roving.obj (.text:in_setup_slave_mode)
-                  00009444    00000024     uart.obj (.text:init_uart)
-                  00009468    00000024     linked_list.obj (.text:new_node)
-                  0000948c    00000024     linked_list.obj (.text:node_delete_list)
-                  000094b0    00000024     main.obj (.text:roving_call_back)
-                  000094d4    00000024     time.obj (.text:time_clear)
-                  000094f8    00000022     events.obj (.text:action_append_action)
-                  0000951a    00000022     linked_list.obj (.text:node_append)
-                  0000953c    00000022     rts430x.lib : mult32_f5hw.obj (.text)
-                  0000955e    00000020     roving.obj (.text:add_new_host_ip)
-                  0000957e    00000020     roving.obj (.text:add_new_host_name)
-                  0000959e    00000020     roving.obj (.text:add_new_pass)
-                  000095be    00000020     roving.obj (.text:add_new_ssid)
-                  000095de    00000020     wattage_sensor.obj (.text:delete_internal_current_sensor)
-                  000095fe    00000020     wattage_sensor.obj (.text:delete_internal_voltage_sensor)
-                  0000961e    00000020     wattage_sensor.obj (.text:disable_internal_current_sensor)
-                  0000963e    00000020     wattage_sensor.obj (.text:disable_internal_voltage_sensor)
-                  0000965e    00000020     wattage_sensor.obj (.text:enable_internal_current_sensor)
-                  0000967e    00000020     wattage_sensor.obj (.text:enable_internal_voltage_sensor)
-                  0000969e    00000020     leds.obj (.text:led_ping)
-                  000096be    00000020     roving.obj (.text:send_data)
-                  000096de    0000001e     temperature_sensor.obj (.text:get_celcius)
-                  000096fc    0000001e     roving.obj (.text:get_dhcp)
-                  0000971a    0000001e     html.obj (.text:html_send)
-                  00009738    0000001e     events.obj (.text:new_action)
-                  00009756    0000001e     sensors.obj (.text:sensor_delete_this)
-                  00009774    0000001e     sensors.obj (.text:sensor_disable_this)
-                  00009792    0000001e     sensors.obj (.text:sensor_enable_this)
-                  000097b0    0000001c     sensors.obj (.text:channel_to_loc)
-                  000097cc    0000001c     wattage_sensor.obj (.text:disable_internal_wattage_sensor)
-                  000097e8    0000001c     events.obj (.text:do_actions)
-                  00009804    0000001c     roving.obj (.text:send_ip)
-                  00009820    0000001c     sensors.obj (.text:sensor_clear_state)
-                  0000983c    0000001c     time.obj (.text:time_delete)
-                  00009858    0000001a     roving.obj (.text:does_has_prompt)
-                  00009872    0000001a     roving.obj (.text:have_ack)
-                  0000988c    0000001a     roving.obj (.text:in_command_mode)
-                  000098a6    0000001a     leds.obj (.text:init_leds)
-                  000098c0    0000001a     time.obj (.text:init_time)
-                  000098da    0000001a     sensors.obj (.text:loc_to_channel)
-                  000098f4    0000001a     roving.obj (.text:not_in_command_mode)
-                  0000990e    00000018     events.obj (.text:action_set_args)
-                  00009926    00000018     events.obj (.text:action_set_func)
-                  0000993e    00000018     audio_sensor.obj (.text:enable_audio_sensor)
-                  00009956    00000018     shempserver.obj (.text:have_data_to_transmit)
-                  0000996e    00000018     roving.obj (.text:reset_setup_info)
-                  00009986    00000018     sensors.obj (.text:sensor_set_delete_func)
-                  0000999e    00000018     sensors.obj (.text:sensor_set_disable_func)
-                  000099b6    00000018     sensors.obj (.text:sensor_set_enable_func)
-                  000099ce    00000018     rts430x.lib : strchr.obj (.text:strchr)
-                  000099e6    00000018                 : strcmp.obj (.text:strcmp)
-                  000099fe    00000018     uart.obj (.text:uart_send_array)
-                  00009a16    00000016     leds.obj (.text:blink_slow_sliding)
-                  00009a2c    00000016     auxlib.obj (.text:multiply)
-                  00009a42    00000016     auxlib.obj (.text:number_of_characters_in_string)
-                  00009a58    00000016     rts430x.lib : div16u.obj (.text)
-                  00009a6e    00000016                 : mult16_f5hw.obj (.text)
-                  00009a84    00000014     audio_sensor.obj (.text:delete_audio_sensor)
-                  00009a98    00000014     audio_sensor.obj (.text:disable_audio_sensor)
-                  00009aac    00000014     audio_sensor.obj (.text:init_audio_sensor)
-                  00009ac0    00000014     main.obj (.text:set_relay)
-                  00009ad4    00000014     uart.obj (.text:uart_send_string)
-                  00009ae8    00000014     time.obj (.text:wait)
-                  00009afc    00000012     roving.obj (.text:done_setup)
-                  00009b0e    00000012     roving.obj (.text:have_dhcp)
-                  00009b20    00000012     main.obj (.text:init_pll)
-                  00009b32    00000012     shempserver.obj (.text:init_transmits)
-                  00009b44    00000012     rts430x.lib : memcpy.obj (.text:memcpy)
-                  00009b56    00000012     sensors.obj (.text:sensor_get_loc)
-                  00009b68    00000012     time.obj (.text:time_set_seconds)
-                  00009b7a    00000010     sensors.obj (.text:disable_sensor)
-                  00009b8a    00000010     html.obj (.text:html_reset)
-                  00009b9a    00000010     main.obj (.text:init_timer)
-                  00009baa    00000010     time.obj (.text:time_set_clock_time)
-                  00009bba    0000000e     leds.obj (.text:blink_slow)
-                  00009bc8    0000000e     leds.obj (.text:blink_slow_alternating)
-                  00009bd6    0000000e     main.obj (.text:do_non_blocking_interrupt)
-                  00009be4    0000000e     main.obj (.text:init_relay)
-                  00009bf2    0000000e     temperature_sensor.obj (.text:init_temperature_sensor)
-                  00009c00    0000000e     linked_list.obj (.text:node_get_next)
-                  00009c0e    0000000e     sensors.obj (.text:sample_queued_sensors)
-                  00009c1c    0000000e     sensors.obj (.text:sensor_get_data_array)
-                  00009c2a    0000000e     sensors.obj (.text:sensor_get_end_time)
-                  00009c38    0000000e     sensors.obj (.text:sensor_get_old_array)
-                  00009c46    0000000e     sensors.obj (.text:sensor_get_period)
-                  00009c54    0000000e     sensors.obj (.text:sensor_get_size)
-                  00009c62    0000000e     sensors.obj (.text:sensor_get_trigger_time)
-                  00009c70    0000000e     rts430x.lib : strlen.obj (.text:strlen)
-                  00009c7e    0000000c     sensors.obj (.text:ready_to_sample)
-                  00009c8a    0000000c     sensors.obj (.text:sensor_get_type)
-                  00009c96    0000000c     auxlib.obj (.text:write_2_bytes_to_string)
-                  00009ca2    0000000a     temperature_sensor.obj (.text:delete_external_temperature_sensor_A)
-                  00009cac    0000000a     temperature_sensor.obj (.text:delete_external_temperature_sensor_B)
-                  00009cb6    0000000a     temperature_sensor.obj (.text:delete_internal_temperature_sensor)
-                  00009cc0    0000000a     light_sensor.obj (.text:delete_light_sensor_A)
-                  00009cca    0000000a     light_sensor.obj (.text:delete_light_sensor_B)
-                  00009cd4    0000000a     temperature_sensor.obj (.text:disable_external_temperature_sensor_A)
-                  00009cde    0000000a     temperature_sensor.obj (.text:disable_external_temperature_sensor_B)
-                  00009ce8    0000000a     temperature_sensor.obj (.text:disable_internal_temperature_sensor)
-                  00009cf2    0000000a     light_sensor.obj (.text:disable_light_sensor_A)
-                  00009cfc    0000000a     light_sensor.obj (.text:disable_light_sensor_B)
-                  00009d06    0000000a     temperature_sensor.obj (.text:enable_external_temperature_sensor_A)
-                  00009d10    0000000a     temperature_sensor.obj (.text:enable_external_temperature_sensor_B)
-                  00009d1a    0000000a     temperature_sensor.obj (.text:enable_internal_temperature_sensor)
-                  00009d24    0000000a     light_sensor.obj (.text:enable_light_sensor_A)
-                  00009d2e    0000000a     light_sensor.obj (.text:enable_light_sensor_B)
-                  00009d38    0000000a     light_sensor.obj (.text:init_light_sensor)
-                  00009d42    0000000a     roving.obj (.text:is_prompt)
-                  00009d4c    00000008     main.obj (.text:toggle_relay)
-                  00009d54    00000008     leds.obj (.text:update_leds)
-                  00009d5c    00000006     roving.obj (.text:associate)
-                  00009d62    00000006     roving.obj (.text:complete_setup)
-                  00009d68    00000006     shempserver.obj (.text:continue_transmits)
-                  00009d6e    00000006     roving.obj (.text:get_new_host_ip)
-                  00009d74    00000006     roving.obj (.text:get_new_host_name)
-                  00009d7a    00000006     roving.obj (.text:get_new_pass)
-                  00009d80    00000006     roving.obj (.text:get_new_ssid)
-                  00009d86    00000006     roving.obj (.text:get_number_of_slaves)
-                  00009d8c    00000006     roving.obj (.text:have_new_host_ip)
-                  00009d92    00000006     roving.obj (.text:have_new_host_name)
-                  00009d98    00000006     roving.obj (.text:have_new_pass)
-                  00009d9e    00000006     roving.obj (.text:have_new_ssid)
-                  00009da4    00000006     shempserver.obj (.text:hold_transmits)
-                  00009daa    00000006     roving.obj (.text:is_connected)
-                  00009db0    00000006     roving.obj (.text:reset_ack)
-                  00009db6    00000006     shempserver.obj (.text:reset_output_buffer)
-                  00009dbc    00000006     leds.obj (.text:set_led_anim)
-                  00009dc2    00000006     sensors.obj (.text:start_sampling)
-                  00009dc8    00000006     sensors.obj (.text:stop_sampling)
-                  00009dce    00000006     leds.obj (.text:turn_on)
-                  00009dd4    00000004     rts430x.lib : pre_init.obj (.text:_system_pre_init)
-                  00009dd8    00000004                 : exit.obj (.text:abort)
-                  00009ddc    00000004     linked_list.obj (.text:node_get_val)
-                  00009de0    00000002     rts430x.lib : _lock.obj (.text:_nop)
+                  000068e0    000001de     main.obj (.text:main)
+                  00006abe    000001cc     wattage_sensor.obj (.text:voltage_on_full)
+                  00006c8a    000001ac     time.obj (.text:write_time_to_string)
+                  00006e36    00000192     shempserver.obj (.text:encode_data_and_old_data_for_transmit)
+                  00006fc8    00000152     audio_sensor.obj (.text:create_audio_sensor)
+                  0000711a    00000152     shempserver.obj (.text:encode_data_for_transmit)
+                  0000726c    0000014c     sensors.obj (.text:new_one_time_sensor)
+                  000073b8    0000013a     temperature_sensor.obj (.text:create_temperature_sensor)
+                  000074f2    0000012a     sensors.obj (.text:new_sensor)
+                  0000761c    00000108     roving.obj (.text:alert_slaves)
+                  00007724    00000102     leds.obj (.text:run_led_driver)
+                  00007826    000000fe     roving.obj (.text:leave_setup_mode)
+                  00007924    000000f0     wattage_sensor.obj (.text:calculate_wattage)
+                  00007a14    000000d6     roving.obj (.text:do_setup)
+                  00007aea    000000d0     auxlib.obj (.text:write_int_to_string)
+                  00007bba    000000ca     hal_pmm.obj (.text:SetVCoreUp)
+                  00007c84    000000c8     light_sensor.obj (.text:create_light_sensor)
+                  00007d4c    000000b8     wattage_sensor.obj (.text:create_internal_wattage_sensor)
+                  00007e04    000000ac     audio_sensor.obj (.text:detect_audio_use)
+                  00007eb0    000000ac     html.obj (.text:html_GET)
+                  00007f5c    000000aa     sensors.obj (.text:sensor_delete)
+                  00008006    000000a6     rts430x.lib : memory.obj (.text:malloc)
+                  000080ac    000000a2     roving.obj (.text:handle_roving_input)
+                  0000814e    0000009c     hal_pmm.obj (.text:SetVCoreDown)
+                  000081ea    00000098     wattage_sensor.obj (.text:create_internal_current_sensor)
+                  00008282    00000098     wattage_sensor.obj (.text:create_internal_voltage_sensor)
+                  0000831a    00000080     rts430x.lib : memory.obj (.text:free)
+                  0000839a    00000080     time.obj (.text:new_time_from_string)
+                  0000841a    0000006e     time.obj (.text:fix_time)
+                  00008488    0000006e     wattage_sensor.obj (.text:init_internal_wattage_sensor)
+                  000084f6    00000066     sensors.obj (.text:sample_enabled_sensors)
+                  0000855c    00000064     time.obj (.text:time_set_to_sum)
+                  000085c0    0000005a     roving.obj (.text:store_uart_input)
+                  0000861a    00000058     rts430x.lib : div32u.obj (.text)
+                  00008672    00000056     roving.obj (.text:add_to_slaves)
+                  000086c8    00000056     time.obj (.text:time_tick)
+                  0000871e    00000054     roving.obj (.text:in_main_mode)
+                  00008772    00000054     main.obj (.text:init_buttons)
+                  000087c6    00000054     shempserver.obj (.text:transmit_header)
+                  0000881a    00000052     roving.obj (.text:start_setup_mode)
+                  0000886c    00000050     sensors.obj (.text:store_data_point)
+                  000088bc    00000050     shempserver.obj (.text:transmit_data)
+                  0000890c    0000004e     roving.obj (.text:host_setup_mode)
+                  0000895a    0000004e     roving.obj (.text:init_roving)
+                  000089a8    0000004c     sensors.obj (.text:init_adc)
+                  000089f4    0000004a     roving.obj (.text:in_setup_mode)
+                  00008a3e    00000048     rts430x.lib : autoinit.obj (.text:_auto_init)
+                  00008a86    00000048     roving.obj (.text:is_delimiter)
+                  00008ace    00000046     time.obj (.text:time_cmp)
+                  00008b14    00000042     temperature_sensor.obj (.text:fix_temperature)
+                  00008b56    00000040     hal_pmm.obj (.text:SetVCore)
+                  00008b96    00000040     roving.obj (.text:enter_command_mode)
+                  00008bd6    00000040     rts430x.lib : div32s.obj (.text)
+                  00008c16    00000040     roving.obj (.text:send_command_with_arg)
+                  00008c56    0000003e     rts430x.lib : asr32.obj (.text:l_asr_const)
+                  00008c94    0000003e                 : lsr32.obj (.text:l_lsr_const)
+                  00008cd2    0000003a     time.obj (.text:add_time_to_time)
+                  00008d0c    0000003a     leds.obj (.text:blink_fast)
+                  00008d46    0000003a     auxlib.obj (.text:read_number_from_string)
+                  00008d80    00000038     auxlib.obj (.text:is_valid_string)
+                  00008db8    00000038     rts430x.lib : memory.obj (.text:minit)
+                  00008df0    00000038     linked_list.obj (.text:node_delete)
+                  00008e28    00000038     wattage_sensor.obj (.text:sync_wattage_sensors)
+                  00008e60    00000036     roving.obj (.text:disconnect)
+                  00008e96    00000036     sensors.obj (.text:enable_sensor)
+                  00008ecc    00000036     roving.obj (.text:exit_command_mode)
+                  00008f02    00000036     sensors.obj (.text:handle_full_sensors)
+                  00008f38    00000036     roving.obj (.text:reset_roving)
+                  00008f6e    00000036     time.obj (.text:time_copy)
+                  00008fa4    00000034     audio_sensor.obj (.text:swap_enabled_audio_sensor)
+                  00008fd8    00000032     sensors.obj (.text:handle_adc_interrupt)
+                  0000900a    00000030     time.obj (.text:check_time)
+                  0000903a    00000030     html.obj (.text:html_write)
+                  0000906a    00000030     html.obj (.text:http_write)
+                  0000909a    00000030     roving.obj (.text:send_command)
+                  000090ca    00000030     time.obj (.text:time_set_current)
+                  000090fa    0000002e     wattage_sensor.obj (.text:delete_internal_wattage_sensor)
+                  00009128    0000002e     sensors.obj (.text:disable_sensor_args)
+                  00009156    0000002e     linked_list.obj (.text:node_delete_next)
+                  00009184    0000002e     auxlib.obj (.text:string_starts_with)
+                  000091b2    0000002c     events.obj (.text:action_delete)
+                  000091de    0000002c     main.obj (.text:button2_toggled)
+                  0000920a    0000002c     main.obj (.text:init_clock)
+                  00009236    0000002c     rts430x.lib : div16s.obj (.text)
+                  00009262    0000002a     roving.obj (.text:connect)
+                  0000928c    0000002a     time.obj (.text:global_time)
+                  000092b6    0000002a     roving.obj (.text:is_associated)
+                  000092e0    0000002a     time.obj (.text:new_time)
+                  0000930a    0000002a     leds.obj (.text:prep_leds)
+                  00009334    00000028     wattage_sensor.obj (.text:enable_internal_wattage_sensor)
+                  0000935c    00000028     roving.obj (.text:in_setup_master_mode)
+                  00009384    00000028     shempserver.obj (.text:new_transmit_action)
+                  000093ac    00000028     sensors.obj (.text:sensor_add_action_on_data_full)
+                  000093d4    00000028     time.obj (.text:wait_for)
+                  000093fc    00000026     events.obj (.text:action_delete_list)
+                  00009422    00000024     roving.obj (.text:in_setup_slave_mode)
+                  00009446    00000024     uart.obj (.text:init_uart)
+                  0000946a    00000024     linked_list.obj (.text:new_node)
+                  0000948e    00000024     linked_list.obj (.text:node_delete_list)
+                  000094b2    00000024     main.obj (.text:roving_call_back)
+                  000094d6    00000024     time.obj (.text:time_clear)
+                  000094fa    00000022     events.obj (.text:action_append_action)
+                  0000951c    00000022     linked_list.obj (.text:node_append)
+                  0000953e    00000022     rts430x.lib : mult32_f5hw.obj (.text)
+                  00009560    00000020     roving.obj (.text:add_new_host_ip)
+                  00009580    00000020     roving.obj (.text:add_new_host_name)
+                  000095a0    00000020     roving.obj (.text:add_new_pass)
+                  000095c0    00000020     roving.obj (.text:add_new_ssid)
+                  000095e0    00000020     wattage_sensor.obj (.text:delete_internal_current_sensor)
+                  00009600    00000020     wattage_sensor.obj (.text:delete_internal_voltage_sensor)
+                  00009620    00000020     wattage_sensor.obj (.text:disable_internal_current_sensor)
+                  00009640    00000020     wattage_sensor.obj (.text:disable_internal_voltage_sensor)
+                  00009660    00000020     wattage_sensor.obj (.text:enable_internal_current_sensor)
+                  00009680    00000020     wattage_sensor.obj (.text:enable_internal_voltage_sensor)
+                  000096a0    00000020     leds.obj (.text:led_ping)
+                  000096c0    00000020     roving.obj (.text:send_data)
+                  000096e0    0000001e     temperature_sensor.obj (.text:get_celcius)
+                  000096fe    0000001e     roving.obj (.text:get_dhcp)
+                  0000971c    0000001e     html.obj (.text:html_send)
+                  0000973a    0000001e     events.obj (.text:new_action)
+                  00009758    0000001e     sensors.obj (.text:sensor_delete_this)
+                  00009776    0000001e     sensors.obj (.text:sensor_disable_this)
+                  00009794    0000001e     sensors.obj (.text:sensor_enable_this)
+                  000097b2    0000001c     sensors.obj (.text:channel_to_loc)
+                  000097ce    0000001c     wattage_sensor.obj (.text:disable_internal_wattage_sensor)
+                  000097ea    0000001c     events.obj (.text:do_actions)
+                  00009806    0000001c     roving.obj (.text:send_ip)
+                  00009822    0000001c     sensors.obj (.text:sensor_clear_state)
+                  0000983e    0000001c     time.obj (.text:time_delete)
+                  0000985a    0000001a     roving.obj (.text:does_has_prompt)
+                  00009874    0000001a     roving.obj (.text:have_ack)
+                  0000988e    0000001a     roving.obj (.text:in_command_mode)
+                  000098a8    0000001a     leds.obj (.text:init_leds)
+                  000098c2    0000001a     time.obj (.text:init_time)
+                  000098dc    0000001a     sensors.obj (.text:loc_to_channel)
+                  000098f6    0000001a     roving.obj (.text:not_in_command_mode)
+                  00009910    00000018     events.obj (.text:action_set_args)
+                  00009928    00000018     events.obj (.text:action_set_func)
+                  00009940    00000018     audio_sensor.obj (.text:enable_audio_sensor)
+                  00009958    00000018     shempserver.obj (.text:have_data_to_transmit)
+                  00009970    00000018     roving.obj (.text:reset_setup_info)
+                  00009988    00000018     sensors.obj (.text:sensor_set_delete_func)
+                  000099a0    00000018     sensors.obj (.text:sensor_set_disable_func)
+                  000099b8    00000018     sensors.obj (.text:sensor_set_enable_func)
+                  000099d0    00000018     rts430x.lib : strchr.obj (.text:strchr)
+                  000099e8    00000018                 : strcmp.obj (.text:strcmp)
+                  00009a00    00000018     uart.obj (.text:uart_send_array)
+                  00009a18    00000016     leds.obj (.text:blink_slow_sliding)
+                  00009a2e    00000016     auxlib.obj (.text:multiply)
+                  00009a44    00000016     auxlib.obj (.text:number_of_characters_in_string)
+                  00009a5a    00000016     rts430x.lib : div16u.obj (.text)
+                  00009a70    00000016                 : mult16_f5hw.obj (.text)
+                  00009a86    00000014     audio_sensor.obj (.text:delete_audio_sensor)
+                  00009a9a    00000014     audio_sensor.obj (.text:disable_audio_sensor)
+                  00009aae    00000014     audio_sensor.obj (.text:init_audio_sensor)
+                  00009ac2    00000014     main.obj (.text:set_relay)
+                  00009ad6    00000014     uart.obj (.text:uart_send_string)
+                  00009aea    00000014     time.obj (.text:wait)
+                  00009afe    00000012     roving.obj (.text:done_setup)
+                  00009b10    00000012     roving.obj (.text:have_dhcp)
+                  00009b22    00000012     main.obj (.text:init_pll)
+                  00009b34    00000012     shempserver.obj (.text:init_transmits)
+                  00009b46    00000012     rts430x.lib : memcpy.obj (.text:memcpy)
+                  00009b58    00000012     sensors.obj (.text:sensor_get_loc)
+                  00009b6a    00000012     time.obj (.text:time_set_seconds)
+                  00009b7c    00000010     sensors.obj (.text:disable_sensor)
+                  00009b8c    00000010     main.obj (.text:do_non_blocking_interrupt)
+                  00009b9c    00000010     html.obj (.text:html_reset)
+                  00009bac    00000010     main.obj (.text:init_timer)
+                  00009bbc    00000010     time.obj (.text:time_set_clock_time)
+                  00009bcc    0000000e     leds.obj (.text:blink_slow)
+                  00009bda    0000000e     leds.obj (.text:blink_slow_alternating)
+                  00009be8    0000000e     main.obj (.text:init_relay)
+                  00009bf6    0000000e     temperature_sensor.obj (.text:init_temperature_sensor)
+                  00009c04    0000000e     linked_list.obj (.text:node_get_next)
+                  00009c12    0000000e     sensors.obj (.text:sample_queued_sensors)
+                  00009c20    0000000e     sensors.obj (.text:sensor_get_data_array)
+                  00009c2e    0000000e     sensors.obj (.text:sensor_get_end_time)
+                  00009c3c    0000000e     sensors.obj (.text:sensor_get_old_array)
+                  00009c4a    0000000e     sensors.obj (.text:sensor_get_period)
+                  00009c58    0000000e     sensors.obj (.text:sensor_get_size)
+                  00009c66    0000000e     sensors.obj (.text:sensor_get_trigger_time)
+                  00009c74    0000000e     rts430x.lib : strlen.obj (.text:strlen)
+                  00009c82    0000000c     sensors.obj (.text:ready_to_sample)
+                  00009c8e    0000000c     sensors.obj (.text:sensor_get_type)
+                  00009c9a    0000000c     auxlib.obj (.text:write_2_bytes_to_string)
+                  00009ca6    0000000a     temperature_sensor.obj (.text:delete_external_temperature_sensor_A)
+                  00009cb0    0000000a     temperature_sensor.obj (.text:delete_external_temperature_sensor_B)
+                  00009cba    0000000a     temperature_sensor.obj (.text:delete_internal_temperature_sensor)
+                  00009cc4    0000000a     light_sensor.obj (.text:delete_light_sensor_A)
+                  00009cce    0000000a     light_sensor.obj (.text:delete_light_sensor_B)
+                  00009cd8    0000000a     temperature_sensor.obj (.text:disable_external_temperature_sensor_A)
+                  00009ce2    0000000a     temperature_sensor.obj (.text:disable_external_temperature_sensor_B)
+                  00009cec    0000000a     temperature_sensor.obj (.text:disable_internal_temperature_sensor)
+                  00009cf6    0000000a     light_sensor.obj (.text:disable_light_sensor_A)
+                  00009d00    0000000a     light_sensor.obj (.text:disable_light_sensor_B)
+                  00009d0a    0000000a     temperature_sensor.obj (.text:enable_external_temperature_sensor_A)
+                  00009d14    0000000a     temperature_sensor.obj (.text:enable_external_temperature_sensor_B)
+                  00009d1e    0000000a     temperature_sensor.obj (.text:enable_internal_temperature_sensor)
+                  00009d28    0000000a     light_sensor.obj (.text:enable_light_sensor_A)
+                  00009d32    0000000a     light_sensor.obj (.text:enable_light_sensor_B)
+                  00009d3c    0000000a     light_sensor.obj (.text:init_light_sensor)
+                  00009d46    0000000a     roving.obj (.text:is_prompt)
+                  00009d50    00000008     main.obj (.text:toggle_relay)
+                  00009d58    00000008     leds.obj (.text:update_leds)
+                  00009d60    00000006     roving.obj (.text:associate)
+                  00009d66    00000006     roving.obj (.text:complete_setup)
+                  00009d6c    00000006     shempserver.obj (.text:continue_transmits)
+                  00009d72    00000006     roving.obj (.text:get_new_host_ip)
+                  00009d78    00000006     roving.obj (.text:get_new_host_name)
+                  00009d7e    00000006     roving.obj (.text:get_new_pass)
+                  00009d84    00000006     roving.obj (.text:get_new_ssid)
+                  00009d8a    00000006     roving.obj (.text:get_number_of_slaves)
+                  00009d90    00000006     roving.obj (.text:have_new_host_ip)
+                  00009d96    00000006     roving.obj (.text:have_new_host_name)
+                  00009d9c    00000006     roving.obj (.text:have_new_pass)
+                  00009da2    00000006     roving.obj (.text:have_new_ssid)
+                  00009da8    00000006     shempserver.obj (.text:hold_transmits)
+                  00009dae    00000006     roving.obj (.text:is_connected)
+                  00009db4    00000006     roving.obj (.text:reset_ack)
+                  00009dba    00000006     shempserver.obj (.text:reset_output_buffer)
+                  00009dc0    00000006     leds.obj (.text:set_led_anim)
+                  00009dc6    00000006     sensors.obj (.text:start_sampling)
+                  00009dcc    00000006     sensors.obj (.text:stop_sampling)
+                  00009dd2    00000006     leds.obj (.text:turn_on)
+                  00009dd8    00000004     rts430x.lib : pre_init.obj (.text:_system_pre_init)
+                  00009ddc    00000004                 : exit.obj (.text:abort)
+                  00009de0    00000004     linked_list.obj (.text:node_get_val)
+                  00009de4    00000002     rts430x.lib : _lock.obj (.text:_nop)
 
-.const     0    00009de2    000014cd     
-                  00009de2    00000e14     temperature_sensor.obj (.const:temp_lookup_table)
-                  0000abf6    000001aa     roving.obj (.const:.string)
-                  0000ada0    00000097     html.obj (.const:.string:html_submit_button)
-                  0000ae37    00000001     --HOLE-- [fill = 0]
-                  0000ae38    00000089     html.obj (.const:.string:html_header_02)
-                  0000aec1    00000001     --HOLE-- [fill = 0]
-                  0000aec2    0000007a     html.obj (.const:.string:html_header_01)
-                  0000af3c    0000006f     html.obj (.const:.string:html_instructions_01)
-                  0000afab    00000001     --HOLE-- [fill = 0]
-                  0000afac    0000006f     html.obj (.const:.string:html_instructions_02)
-                  0000b01b    00000001     --HOLE-- [fill = 0]
-                  0000b01c    00000068     html.obj (.const:.string:html_header_03)
-                  0000b084    0000005f     html.obj (.const:.string:html_number_of_slaves_prefix)
-                  0000b0e3    00000001     --HOLE-- [fill = 0]
-                  0000b0e4    00000053     html.obj (.const:.string:http_header)
-                  0000b137    00000001     --HOLE-- [fill = 0]
-                  0000b138    00000039     html.obj (.const:.string:html_pass_prefix)
-                  0000b171    00000001     --HOLE-- [fill = 0]
-                  0000b172    00000035     html.obj (.const:.string:html_ssid_prefix)
-                  0000b1a7    00000001     --HOLE-- [fill = 0]
-                  0000b1a8    00000032     html.obj (.const:.string:html_host_ip_prefix)
-                  0000b1da    0000001e     html.obj (.const:.string:html_footer)
-                  0000b1f8    0000001c     html.obj (.const:.string:html_host_ip_form)
-                  0000b214    0000001c     html.obj (.const:.string:html_pass_form)
-                  0000b230    0000001c     html.obj (.const:.string:html_ssid_form)
-                  0000b24c    0000001a     html.obj (.const:.string)
-                  0000b266    00000012     html.obj (.const:.string:html_input_error)
-                  0000b278    0000000b     html.obj (.const:.string:html_host_ip_suffix)
-                  0000b283    00000001     --HOLE-- [fill = 0]
-                  0000b284    0000000b     html.obj (.const:.string:html_number_of_slaves_suffix)
-                  0000b28f    00000001     --HOLE-- [fill = 0]
-                  0000b290    0000000b     html.obj (.const:.string:html_pass_suffix)
-                  0000b29b    00000001     --HOLE-- [fill = 0]
-                  0000b29c    0000000b     html.obj (.const:.string:html_ssid_suffix)
-                  0000b2a7    00000001     --HOLE-- [fill = 0]
-                  0000b2a8    00000007     shempserver.obj (.const:.string:SERIAL_NUMBER)
+.const     0    00009de6    000014cd     
+                  00009de6    00000e14     temperature_sensor.obj (.const:temp_lookup_table)
+                  0000abfa    000001aa     roving.obj (.const:.string)
+                  0000ada4    00000097     html.obj (.const:.string:html_submit_button)
+                  0000ae3b    00000001     --HOLE-- [fill = 0]
+                  0000ae3c    00000089     html.obj (.const:.string:html_header_02)
+                  0000aec5    00000001     --HOLE-- [fill = 0]
+                  0000aec6    0000007a     html.obj (.const:.string:html_header_01)
+                  0000af40    0000006f     html.obj (.const:.string:html_instructions_01)
+                  0000afaf    00000001     --HOLE-- [fill = 0]
+                  0000afb0    0000006f     html.obj (.const:.string:html_instructions_02)
+                  0000b01f    00000001     --HOLE-- [fill = 0]
+                  0000b020    00000068     html.obj (.const:.string:html_header_03)
+                  0000b088    0000005f     html.obj (.const:.string:html_number_of_slaves_prefix)
+                  0000b0e7    00000001     --HOLE-- [fill = 0]
+                  0000b0e8    00000053     html.obj (.const:.string:http_header)
+                  0000b13b    00000001     --HOLE-- [fill = 0]
+                  0000b13c    00000039     html.obj (.const:.string:html_pass_prefix)
+                  0000b175    00000001     --HOLE-- [fill = 0]
+                  0000b176    00000035     html.obj (.const:.string:html_ssid_prefix)
+                  0000b1ab    00000001     --HOLE-- [fill = 0]
+                  0000b1ac    00000032     html.obj (.const:.string:html_host_ip_prefix)
+                  0000b1de    0000001e     html.obj (.const:.string:html_footer)
+                  0000b1fc    0000001c     html.obj (.const:.string:html_host_ip_form)
+                  0000b218    0000001c     html.obj (.const:.string:html_pass_form)
+                  0000b234    0000001c     html.obj (.const:.string:html_ssid_form)
+                  0000b250    0000001a     html.obj (.const:.string)
+                  0000b26a    00000012     html.obj (.const:.string:html_input_error)
+                  0000b27c    0000000b     html.obj (.const:.string:html_host_ip_suffix)
+                  0000b287    00000001     --HOLE-- [fill = 0]
+                  0000b288    0000000b     html.obj (.const:.string:html_number_of_slaves_suffix)
+                  0000b293    00000001     --HOLE-- [fill = 0]
+                  0000b294    0000000b     html.obj (.const:.string:html_pass_suffix)
+                  0000b29f    00000001     --HOLE-- [fill = 0]
+                  0000b2a0    0000000b     html.obj (.const:.string:html_ssid_suffix)
+                  0000b2ab    00000001     --HOLE-- [fill = 0]
+                  0000b2ac    00000007     shempserver.obj (.const:.string:SERIAL_NUMBER)
 
 .int42     0    0000ffd4    00000002     
                   0000ffd4    00000002     main.obj (.int42)
@@ -515,7 +515,7 @@ ffffffff   .text
 00003f5e   ADC12MEMX
 00005d2c   ADC12_ISR
 00003f3e   ADC12_SENSORS
-00009dd8   C$$EXIT
+00009ddc   C$$EXIT
 00000150   CRCDI
 00000152   CRCDIRB
 00000153   CRCDIRB_H
@@ -580,36 +580,36 @@ ffffffff   .text
 00000147   FCTL4_H
 00000146   FCTL4_L
 00003fac   LEDOUT_temp
-00008c8c   L_ASR_1
-00008c68   L_ASR_10
-00008c64   L_ASR_11
-00008c60   L_ASR_12
-00008c5c   L_ASR_13
-00008c58   L_ASR_14
-00008c54   L_ASR_15
-00008c88   L_ASR_2
-00008c84   L_ASR_3
-00008c80   L_ASR_4
-00008c7c   L_ASR_5
-00008c78   L_ASR_6
-00008c74   L_ASR_7
-00008c70   L_ASR_8
-00008c6c   L_ASR_9
-00008cca   L_LSR_1
-00008ca6   L_LSR_10
-00008ca2   L_LSR_11
-00008c9e   L_LSR_12
-00008c9a   L_LSR_13
-00008c96   L_LSR_14
-00008c92   L_LSR_15
-00008cc6   L_LSR_2
-00008cc2   L_LSR_3
-00008cbe   L_LSR_4
-00008cba   L_LSR_5
-00008cb6   L_LSR_6
-00008cb2   L_LSR_7
-00008cae   L_LSR_8
-00008caa   L_LSR_9
+00008c8e   L_ASR_1
+00008c6a   L_ASR_10
+00008c66   L_ASR_11
+00008c62   L_ASR_12
+00008c5e   L_ASR_13
+00008c5a   L_ASR_14
+00008c56   L_ASR_15
+00008c8a   L_ASR_2
+00008c86   L_ASR_3
+00008c82   L_ASR_4
+00008c7e   L_ASR_5
+00008c7a   L_ASR_6
+00008c76   L_ASR_7
+00008c72   L_ASR_8
+00008c6e   L_ASR_9
+00008ccc   L_LSR_1
+00008ca8   L_LSR_10
+00008ca4   L_LSR_11
+00008ca0   L_LSR_12
+00008c9c   L_LSR_13
+00008c98   L_LSR_14
+00008c94   L_LSR_15
+00008cc8   L_LSR_2
+00008cc4   L_LSR_3
+00008cc0   L_LSR_4
+00008cbc   L_LSR_5
+00008cb8   L_LSR_6
+00008cb4   L_LSR_7
+00008cb0   L_LSR_8
+00008cac   L_LSR_9
 000004c4   MAC
 000004da   MAC32H
 000004db   MAC32H_H
@@ -867,7 +867,7 @@ ffffffff   .text
 000004b6   RTCYEAR
 000004b7   RTCYEAR_H
 000004b6   RTCYEAR_L
-0000b2a8   SERIAL_NUMBER
+0000b2ac   SERIAL_NUMBER
 00000100   SFRIE1
 00000101   SFRIE1_H
 00000100   SFRIE1_L
@@ -922,9 +922,9 @@ ffffffff   .text
 0000019a   SYSUNIV
 0000019b   SYSUNIV_H
 0000019a   SYSUNIV_L
-00008b54   SetVCore
-0000814c   SetVCoreDown
-00007bb8   SetVCoreUp
+00008b56   SetVCore
+0000814e   SetVCoreDown
+00007bba   SetVCoreUp
 00000352   TA0CCR0
 00000354   TA0CCR1
 00000356   TA0CCR2
@@ -1162,45 +1162,45 @@ ffffffff   __binit__
 00001c00   __bss__
 ffffffff   __c_args__
 00005d36   __cinit__
-00009234   __divi
-00008bd4   __divli
-00009a58   __divu
-00008618   __divul
+00009236   __divi
+00008bd6   __divli
+00009a5a   __divu
+0000861a   __divul
 00003fbe   __end__
 ffffffff   __etext__
-00009a6e   __mpyi_f5hw
-0000953c   __mpyl_f5hw
+00009a70   __mpyi_f5hw
+0000953e   __mpyl_f5hw
 ffffffff   __pinit__
-00009234   __remi
-00008bd4   __remli
-00009a58   __remu
-00008618   __remul
+00009236   __remi
+00008bd6   __remli
+00009a5a   __remu
+0000861a   __remul
 ffffffff   __text__
-00008a3c   _auto_init
+00008a3e   _auto_init
 00005cee   _c_int00
 00005cee   _c_int00_noexit
 00003f8e   _lock
-00009de0   _nop
+00009de4   _nop
 0000fffe   _reset_vector
 00005900   _stack
 00003fc0   _sys_memory
-00009dd4   _system_pre_init
+00009dd8   _system_pre_init
 00003f92   _unlock
-00009dd8   abort
-000094f8   action_append_action
-000091b0   action_delete
-000093fa   action_delete_list
-0000990e   action_set_args
-00009926   action_set_func
-0000955e   add_new_host_ip
-0000957e   add_new_host_name
-0000959e   add_new_pass
-000095be   add_new_ssid
-00008cd0   add_time_to_time
-00008670   add_to_slaves
-0000761a   alert_slaves
+00009ddc   abort
+000094fa   action_append_action
+000091b2   action_delete
+000093fc   action_delete_list
+00009910   action_set_args
+00009928   action_set_func
+00009560   add_new_host_ip
+00009580   add_new_host_name
+000095a0   add_new_pass
+000095c0   add_new_ssid
+00008cd2   add_time_to_time
+00008672   add_to_slaves
+0000761c   alert_slaves
 00003da8   assoc
-00009d5c   associate
+00009d60   associate
 00003fb3   audio_cool_down_counter
 00003fb0   audio_sensor_hifi
 00003fb2   audio_sensor_is_hifi
@@ -1208,29 +1208,29 @@ ffffffff   __text__
 00003f86   aux_sensor
 00003f8a   aux_sensor_enabled
 ffffffff   binit
-00008d0a   blink_fast
-00009bba   blink_slow
-00009bc8   blink_slow_alternating
-00009a16   blink_slow_sliding
-00009d4c   button1_toggled
-000091dc   button2_toggled
-00007922   calculate_wattage
+00008d0c   blink_fast
+00009bcc   blink_slow
+00009bda   blink_slow_alternating
+00009a18   blink_slow_sliding
+00009d50   button1_toggled
+000091de   button2_toggled
+00007924   calculate_wattage
 00003ef2   call_back
-000097b0   channel_to_loc
+000097b2   channel_to_loc
 00003f7e   check_in_period
-00009008   check_time
+0000900a   check_time
 00005d36   cinit
 00003da3   command_mode
-00009d62   complete_setup
+00009d66   complete_setup
 00003da6   config_mode
-00009260   connect
-00009d68   continue_transmits
-00006fc6   create_audio_sensor
-000081e8   create_internal_current_sensor
-00008280   create_internal_voltage_sensor
-00007d4a   create_internal_wattage_sensor
-00007c82   create_light_sensor
-000073b6   create_temperature_sensor
+00009262   connect
+00009d6c   continue_transmits
+00006fc8   create_audio_sensor
+000081ea   create_internal_current_sensor
+00008282   create_internal_voltage_sensor
+00007d4c   create_internal_wattage_sensor
+00007c84   create_light_sensor
+000073b8   create_temperature_sensor
 00003fa8   cur_time
 00003f03   current_is_interesting
 00003efc   current_is_ready
@@ -1238,181 +1238,181 @@ ffffffff   binit
 00003f16   current_reference
 00003ef6   current_sensor
 00003f36   current_settling_counter
-00009a84   delete_audio_sensor
-00009ca2   delete_external_temperature_sensor_A
-00009cac   delete_external_temperature_sensor_B
-000095de   delete_internal_current_sensor
-00009cb6   delete_internal_temperature_sensor
-000095fe   delete_internal_voltage_sensor
-000090f8   delete_internal_wattage_sensor
-00009cc0   delete_light_sensor_A
-00009cca   delete_light_sensor_B
-00007e02   detect_audio_use
+00009a86   delete_audio_sensor
+00009ca6   delete_external_temperature_sensor_A
+00009cb0   delete_external_temperature_sensor_B
+000095e0   delete_internal_current_sensor
+00009cba   delete_internal_temperature_sensor
+00009600   delete_internal_voltage_sensor
+000090fa   delete_internal_wattage_sensor
+00009cc4   delete_light_sensor_A
+00009cce   delete_light_sensor_B
+00007e04   detect_audio_use
 00003da9   dhcp
-00009a98   disable_audio_sensor
-00009cd4   disable_external_temperature_sensor_A
-00009cde   disable_external_temperature_sensor_B
-0000961e   disable_internal_current_sensor
-00009ce8   disable_internal_temperature_sensor
-0000963e   disable_internal_voltage_sensor
-000097cc   disable_internal_wattage_sensor
-00009cf2   disable_light_sensor_A
-00009cfc   disable_light_sensor_B
-00009b7a   disable_sensor
-00009126   disable_sensor_args
-00008e5e   disconnect
-000097e8   do_actions
-00009bd6   do_non_blocking_interrupt
-00007a12   do_setup
-00009858   does_has_prompt
-00009afc   done_setup
-0000993e   enable_audio_sensor
-00009d06   enable_external_temperature_sensor_A
-00009d10   enable_external_temperature_sensor_B
-0000965e   enable_internal_current_sensor
-00009d1a   enable_internal_temperature_sensor
-0000967e   enable_internal_voltage_sensor
-00009332   enable_internal_wattage_sensor
-00009d24   enable_light_sensor_A
-00009d2e   enable_light_sensor_B
-00008e94   enable_sensor
-00006e34   encode_data_and_old_data_for_transmit
-00007118   encode_data_for_transmit
+00009a9a   disable_audio_sensor
+00009cd8   disable_external_temperature_sensor_A
+00009ce2   disable_external_temperature_sensor_B
+00009620   disable_internal_current_sensor
+00009cec   disable_internal_temperature_sensor
+00009640   disable_internal_voltage_sensor
+000097ce   disable_internal_wattage_sensor
+00009cf6   disable_light_sensor_A
+00009d00   disable_light_sensor_B
+00009b7c   disable_sensor
+00009128   disable_sensor_args
+00008e60   disconnect
+000097ea   do_actions
+00009b8c   do_non_blocking_interrupt
+00007a14   do_setup
+0000985a   does_has_prompt
+00009afe   done_setup
+00009940   enable_audio_sensor
+00009d0a   enable_external_temperature_sensor_A
+00009d14   enable_external_temperature_sensor_B
+00009660   enable_internal_current_sensor
+00009d1e   enable_internal_temperature_sensor
+00009680   enable_internal_voltage_sensor
+00009334   enable_internal_wattage_sensor
+00009d28   enable_light_sensor_A
+00009d32   enable_light_sensor_B
+00008e96   enable_sensor
+00006e36   encode_data_and_old_data_for_transmit
+0000711a   encode_data_for_transmit
 00003fbe   end
 00003f3a   end_of_sequence
-00008b94   enter_command_mode
+00008b96   enter_command_mode
 ffffffff   etext
-00008eca   exit_command_mode
+00008ecc   exit_command_mode
 00003fb6   external_temperature_sensor_A
 00003fb8   external_temperature_sensor_B
-00008b12   fix_temperature
-00008418   fix_time
-00008318   free
-000096de   get_celcius
-000096fc   get_dhcp
-00009d6e   get_new_host_ip
-00009d74   get_new_host_name
-00009d7a   get_new_pass
-00009d80   get_new_ssid
-00009d86   get_number_of_slaves
-0000928a   global_time
-00008fd6   handle_adc_interrupt
-00008f00   handle_full_sensors
-000080aa   handle_roving_input
+00008b14   fix_temperature
+0000841a   fix_time
+0000831a   free
+000096e0   get_celcius
+000096fe   get_dhcp
+00009d72   get_new_host_ip
+00009d78   get_new_host_name
+00009d7e   get_new_pass
+00009d84   get_new_ssid
+00009d8a   get_number_of_slaves
+0000928c   global_time
+00008fd8   handle_adc_interrupt
+00008f02   handle_full_sensors
+000080ac   handle_roving_input
 00003ef0   has_prompt
-00009872   have_ack
+00009874   have_ack
 00003eef   have_ack_flag
-00009956   have_data_to_transmit
-00009b0e   have_dhcp
-00009d8c   have_new_host_ip
-00009d92   have_new_host_name
-00009d98   have_new_pass
-00009d9e   have_new_ssid
+00009958   have_data_to_transmit
+00009b10   have_dhcp
+00009d90   have_new_host_ip
+00009d96   have_new_host_name
+00009d9c   have_new_pass
+00009da2   have_new_ssid
 00003376   header
 00003375   hold_transmit_flag
-00009da4   hold_transmits
+00009da8   hold_transmits
 00003dba   host_ip
 00003dda   host_name
-0000890a   host_setup_mode
-00007eae   html_GET
+0000890c   host_setup_mode
+00007eb0   html_GET
 0000339c   html_buffer
-0000b1da   html_footer
-0000aec2   html_header_01
-0000ae38   html_header_02
-0000b01c   html_header_03
-0000b1f8   html_host_ip_form
-0000b1a8   html_host_ip_prefix
-0000b278   html_host_ip_suffix
-0000b266   html_input_error
-0000af3c   html_instructions_01
-0000afac   html_instructions_02
+0000b1de   html_footer
+0000aec6   html_header_01
+0000ae3c   html_header_02
+0000b020   html_header_03
+0000b1fc   html_host_ip_form
+0000b1ac   html_host_ip_prefix
+0000b27c   html_host_ip_suffix
+0000b26a   html_input_error
+0000af40   html_instructions_01
+0000afb0   html_instructions_02
 00003394   html_number_of_slaves_field
-0000b084   html_number_of_slaves_prefix
-0000b284   html_number_of_slaves_suffix
+0000b088   html_number_of_slaves_prefix
+0000b288   html_number_of_slaves_suffix
 0000397a   html_page_length
-0000b214   html_pass_form
-0000b138   html_pass_prefix
-0000b290   html_pass_suffix
-00009b8a   html_reset
-0000971a   html_send
-0000b230   html_ssid_form
-0000b172   html_ssid_prefix
-0000b29c   html_ssid_suffix
-0000ada0   html_submit_button
-00009038   html_write
+0000b218   html_pass_form
+0000b13c   html_pass_prefix
+0000b294   html_pass_suffix
+00009b9c   html_reset
+0000971c   html_send
+0000b234   html_ssid_form
+0000b176   html_ssid_prefix
+0000b2a0   html_ssid_suffix
+0000ada4   html_submit_button
+0000903a   html_write
 00003978   html_write_ptr
-0000b0e4   http_header
+0000b0e8   http_header
 0000397c   http_header_length
-00009068   http_write
-0000988c   in_command_mode
-0000871c   in_main_mode
-0000935a   in_setup_master_mode
-000089f2   in_setup_mode
-00009420   in_setup_slave_mode
-000089a6   init_adc
-00009aac   init_audio_sensor
-00008770   init_buttons
-00009208   init_clock
-00008486   init_internal_wattage_sensor
-000098a6   init_leds
-00009d38   init_light_sensor
-00009b20   init_pll
-00009be4   init_relay
-00008958   init_roving
-00009bf2   init_temperature_sensor
-000098c0   init_time
-00009b9a   init_timer
-00009b32   init_transmits
-00009444   init_uart
+0000906a   http_write
+0000988e   in_command_mode
+0000871e   in_main_mode
+0000935c   in_setup_master_mode
+000089f4   in_setup_mode
+00009422   in_setup_slave_mode
+000089a8   init_adc
+00009aae   init_audio_sensor
+00008772   init_buttons
+0000920a   init_clock
+00008488   init_internal_wattage_sensor
+000098a8   init_leds
+00009d3c   init_light_sensor
+00009b22   init_pll
+00009be8   init_relay
+0000895a   init_roving
+00009bf6   init_temperature_sensor
+000098c2   init_time
+00009bac   init_timer
+00009b34   init_transmits
+00009446   init_uart
 0000399e   input_buffer
 00003f78   inside_non_blocking_interrupt
 00003fb4   internal_temperature_sensor
 00003daa   ip
-000092b4   is_associated
-00009daa   is_connected
-00008a84   is_delimiter
-00009d42   is_prompt
-00008d7e   is_valid_string
+000092b6   is_associated
+00009dae   is_connected
+00008a86   is_delimiter
+00009d46   is_prompt
+00008d80   is_valid_string
 00003f7c   last_connect_time
-00007824   leave_setup_mode
-0000969e   led_ping
+00007826   leave_setup_mode
+000096a0   led_ping
 00003fa6   led_state
 00003fba   light_sensor_A
 00003fbc   light_sensor_B
-000098da   loc_to_channel
+000098dc   loc_to_channel
 000068e0   main
 00003f8c   main_mode
-00008004   malloc
-00009b44   memcpy
-00008db6   minit
-00009a2c   multiply
+00008006   malloc
+00009b46   memcpy
+00008db8   minit
+00009a2e   multiply
 00003e54   never_was_a_slave
-00009738   new_action
+0000973a   new_action
 00003f22   new_current
 00003dca   new_host_ip
 00003e53   new_host_ip_flag
 00003e16   new_host_name
 00003e52   new_host_name_flag
-00009468   new_node
-0000726a   new_one_time_sensor
+0000946a   new_node
+0000726c   new_one_time_sensor
 00003ec2   new_pass
 00003ee7   new_pass_flag
-000074f0   new_sensor
+000074f2   new_sensor
 00003e9e   new_ssid
 00003ee6   new_ssid_flag
-000092de   new_time
-00008398   new_time_from_string
-00009382   new_transmit_action
+000092e0   new_time
+0000839a   new_time_from_string
+00009384   new_transmit_action
 00003f1e   new_voltage
 00003da2   newline
-0000951a   node_append
-00008dee   node_delete
-0000948c   node_delete_list
-00009154   node_delete_next
-00009c00   node_get_next
-00009ddc   node_get_val
-000098f4   not_in_command_mode
-00009a42   number_of_characters_in_string
+0000951c   node_append
+00008df0   node_delete
+0000948e   node_delete_list
+00009156   node_delete_next
+00009c04   node_get_next
+00009de0   node_get_val
+000098f6   not_in_command_mode
+00009a44   number_of_characters_in_string
 00003eec   number_of_slaves
 00003f7a   okay_to_transmit
 00001c00   output_buffer
@@ -1426,48 +1426,48 @@ ffffffff   pinit
 00003f0a   power_counter
 00003f12   power_low_passed
 00003f06   power_sum
-00009308   prep_leds
+0000930a   prep_leds
 00003da0   read_index
-00008d44   read_number_from_string
+00008d46   read_number_from_string
 00003372   read_ptr
-00009c7e   ready_to_sample
-00009db0   reset_ack
-00009db6   reset_output_buffer
+00009c82   ready_to_sample
+00009db4   reset_ack
+00009dba   reset_output_buffer
 00003374   reset_output_flag
-00008f36   reset_roving
-0000996e   reset_setup_info
-000094b0   roving_call_back
-00007722   run_led_driver
-000084f4   sample_enabled_sensors
-00009c0e   sample_queued_sensors
+00008f38   reset_roving
+00009970   reset_setup_info
+000094b2   roving_call_back
+00007724   run_led_driver
+000084f6   sample_enabled_sensors
+00009c12   sample_queued_sensors
 00003f3c   sampling_state
-00009098   send_command
-00008c14   send_command_with_arg
-000096be   send_data
-00009804   send_ip
+0000909a   send_command
+00008c16   send_command_with_arg
+000096c0   send_data
+00009806   send_ip
 00003f04   send_next_current
 00003f02   send_next_voltage
-000093aa   sensor_add_action_on_data_full
-00009820   sensor_clear_state
-00007f5a   sensor_delete
-00009756   sensor_delete_this
-00009774   sensor_disable_this
-00009792   sensor_enable_this
-00009c1c   sensor_get_data_array
-00009c2a   sensor_get_end_time
-00009b56   sensor_get_loc
-00009c38   sensor_get_old_array
-00009c46   sensor_get_period
-00009c54   sensor_get_size
-00009c62   sensor_get_trigger_time
-00009c8a   sensor_get_type
+000093ac   sensor_add_action_on_data_full
+00009822   sensor_clear_state
+00007f5c   sensor_delete
+00009758   sensor_delete_this
+00009776   sensor_disable_this
+00009794   sensor_enable_this
+00009c20   sensor_get_data_array
+00009c2e   sensor_get_end_time
+00009b58   sensor_get_loc
+00009c3c   sensor_get_old_array
+00009c4a   sensor_get_period
+00009c58   sensor_get_size
+00009c66   sensor_get_trigger_time
+00009c8e   sensor_get_type
 00003f38   sensor_list
-00009986   sensor_set_delete_func
-0000999e   sensor_set_disable_func
-000099b6   sensor_set_enable_func
+00009988   sensor_set_delete_func
+000099a0   sensor_set_disable_func
+000099b8   sensor_set_enable_func
 00003f79   server_wants_header
-00009dbc   set_led_anim
-00009ac0   set_relay
+00009dc0   set_led_anim
+00009ac2   set_relay
 00003f80   setup_button_pressed
 00003f84   setup_button_time_duration
 00003f82   setup_button_time_trigger
@@ -1484,52 +1484,52 @@ ffffffff   pinit
 00003f2a   stable_current
 00003f26   stable_voltage
 00003f2e   stable_wattage
-00009dc2   start_sampling
-00008818   start_setup_mode
-00009dc8   stop_sampling
-0000886a   store_data_point
-000085be   store_uart_input
-000099ce   strchr
-000099e6   strcmp
-00009182   string_starts_with
-00009c70   strlen
-00008fa2   swap_enabled_audio_sensor
-00008e26   sync_wattage_sensors
-00009de2   temp_lookup_table
+00009dc6   start_sampling
+0000881a   start_setup_mode
+00009dcc   stop_sampling
+0000886c   store_data_point
+000085c0   store_uart_input
+000099d0   strchr
+000099e8   strcmp
+00009184   string_starts_with
+00009c74   strlen
+00008fa4   swap_enabled_audio_sensor
+00008e28   sync_wattage_sensors
+00009de6   temp_lookup_table
 0000397e   temp_varchar
 00003f60   the_time
 00003f6c   the_time_frozen
-000094d4   time_clear
-00008acc   time_cmp
-00008f6c   time_copy
-0000983c   time_delete
-00009baa   time_set_clock_time
-000090c8   time_set_current
-00009b68   time_set_seconds
-0000855a   time_set_to_sum
-000086c6   time_tick
-00009d4c   toggle_relay
-000088ba   transmit_data
-000087c4   transmit_header
-00009dce   turn_on
-000099fe   uart_send_array
-00009ad4   uart_send_string
-00009d54   update_leds
+000094d6   time_clear
+00008ace   time_cmp
+00008f6e   time_copy
+0000983e   time_delete
+00009bbc   time_set_clock_time
+000090ca   time_set_current
+00009b6a   time_set_seconds
+0000855c   time_set_to_sum
+000086c8   time_tick
+00009d50   toggle_relay
+000088bc   transmit_data
+000087c6   transmit_header
+00009dd2   turn_on
+00009a00   uart_send_array
+00009ad6   uart_send_string
+00009d58   update_leds
 00003f01   voltage_is_interesting
 00003efd   voltage_is_ready
-00006abc   voltage_on_full
+00006abe   voltage_on_full
 00003f1a   voltage_reference
 00003ef8   voltage_sensor
 00003f34   voltage_settling_counter
-00009ae8   wait
-000093d2   wait_for
+00009aea   wait
+000093d4   wait_for
 00003efa   wattage_sensor
 00003f32   wattage_settling_counter
-00009c96   write_2_bytes_to_string
+00009c9a   write_2_bytes_to_string
 00003d9e   write_index
-00007ae8   write_int_to_string
+00007aea   write_int_to_string
 00003370   write_ptr
-00006c88   write_time_to_string
+00006c8a   write_time_to_string
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -2340,290 +2340,290 @@ address    name
 000063fc   parse_http_request
 000066ea   current_on_full
 000068e0   main
-00006abc   voltage_on_full
-00006c88   write_time_to_string
-00006e34   encode_data_and_old_data_for_transmit
-00006fc6   create_audio_sensor
-00007118   encode_data_for_transmit
-0000726a   new_one_time_sensor
-000073b6   create_temperature_sensor
-000074f0   new_sensor
-0000761a   alert_slaves
-00007722   run_led_driver
-00007824   leave_setup_mode
-00007922   calculate_wattage
-00007a12   do_setup
-00007ae8   write_int_to_string
-00007bb8   SetVCoreUp
-00007c82   create_light_sensor
-00007d4a   create_internal_wattage_sensor
-00007e02   detect_audio_use
-00007eae   html_GET
-00007f5a   sensor_delete
-00008004   malloc
-000080aa   handle_roving_input
-0000814c   SetVCoreDown
-000081e8   create_internal_current_sensor
-00008280   create_internal_voltage_sensor
-00008318   free
-00008398   new_time_from_string
-00008418   fix_time
-00008486   init_internal_wattage_sensor
-000084f4   sample_enabled_sensors
-0000855a   time_set_to_sum
-000085be   store_uart_input
-00008618   __divul
-00008618   __remul
-00008670   add_to_slaves
-000086c6   time_tick
-0000871c   in_main_mode
-00008770   init_buttons
-000087c4   transmit_header
-00008818   start_setup_mode
-0000886a   store_data_point
-000088ba   transmit_data
-0000890a   host_setup_mode
-00008958   init_roving
-000089a6   init_adc
-000089f2   in_setup_mode
-00008a3c   _auto_init
-00008a84   is_delimiter
-00008acc   time_cmp
-00008b12   fix_temperature
-00008b54   SetVCore
-00008b94   enter_command_mode
-00008bd4   __divli
-00008bd4   __remli
-00008c14   send_command_with_arg
-00008c54   L_ASR_15
-00008c58   L_ASR_14
-00008c5c   L_ASR_13
-00008c60   L_ASR_12
-00008c64   L_ASR_11
-00008c68   L_ASR_10
-00008c6c   L_ASR_9
-00008c70   L_ASR_8
-00008c74   L_ASR_7
-00008c78   L_ASR_6
-00008c7c   L_ASR_5
-00008c80   L_ASR_4
-00008c84   L_ASR_3
-00008c88   L_ASR_2
-00008c8c   L_ASR_1
-00008c92   L_LSR_15
-00008c96   L_LSR_14
-00008c9a   L_LSR_13
-00008c9e   L_LSR_12
-00008ca2   L_LSR_11
-00008ca6   L_LSR_10
-00008caa   L_LSR_9
-00008cae   L_LSR_8
-00008cb2   L_LSR_7
-00008cb6   L_LSR_6
-00008cba   L_LSR_5
-00008cbe   L_LSR_4
-00008cc2   L_LSR_3
-00008cc6   L_LSR_2
-00008cca   L_LSR_1
-00008cd0   add_time_to_time
-00008d0a   blink_fast
-00008d44   read_number_from_string
-00008d7e   is_valid_string
-00008db6   minit
-00008dee   node_delete
-00008e26   sync_wattage_sensors
-00008e5e   disconnect
-00008e94   enable_sensor
-00008eca   exit_command_mode
-00008f00   handle_full_sensors
-00008f36   reset_roving
-00008f6c   time_copy
-00008fa2   swap_enabled_audio_sensor
-00008fd6   handle_adc_interrupt
-00009008   check_time
-00009038   html_write
-00009068   http_write
-00009098   send_command
-000090c8   time_set_current
-000090f8   delete_internal_wattage_sensor
-00009126   disable_sensor_args
-00009154   node_delete_next
-00009182   string_starts_with
-000091b0   action_delete
-000091dc   button2_toggled
-00009208   init_clock
-00009234   __divi
-00009234   __remi
-00009260   connect
-0000928a   global_time
-000092b4   is_associated
-000092de   new_time
-00009308   prep_leds
-00009332   enable_internal_wattage_sensor
-0000935a   in_setup_master_mode
-00009382   new_transmit_action
-000093aa   sensor_add_action_on_data_full
-000093d2   wait_for
-000093fa   action_delete_list
-00009420   in_setup_slave_mode
-00009444   init_uart
-00009468   new_node
-0000948c   node_delete_list
-000094b0   roving_call_back
-000094d4   time_clear
-000094f8   action_append_action
-0000951a   node_append
-0000953c   __mpyl_f5hw
-0000955e   add_new_host_ip
-0000957e   add_new_host_name
-0000959e   add_new_pass
-000095be   add_new_ssid
-000095de   delete_internal_current_sensor
-000095fe   delete_internal_voltage_sensor
-0000961e   disable_internal_current_sensor
-0000963e   disable_internal_voltage_sensor
-0000965e   enable_internal_current_sensor
-0000967e   enable_internal_voltage_sensor
-0000969e   led_ping
-000096be   send_data
-000096de   get_celcius
-000096fc   get_dhcp
-0000971a   html_send
-00009738   new_action
-00009756   sensor_delete_this
-00009774   sensor_disable_this
-00009792   sensor_enable_this
-000097b0   channel_to_loc
-000097cc   disable_internal_wattage_sensor
-000097e8   do_actions
-00009804   send_ip
-00009820   sensor_clear_state
-0000983c   time_delete
-00009858   does_has_prompt
-00009872   have_ack
-0000988c   in_command_mode
-000098a6   init_leds
-000098c0   init_time
-000098da   loc_to_channel
-000098f4   not_in_command_mode
-0000990e   action_set_args
-00009926   action_set_func
-0000993e   enable_audio_sensor
-00009956   have_data_to_transmit
-0000996e   reset_setup_info
-00009986   sensor_set_delete_func
-0000999e   sensor_set_disable_func
-000099b6   sensor_set_enable_func
-000099ce   strchr
-000099e6   strcmp
-000099fe   uart_send_array
-00009a16   blink_slow_sliding
-00009a2c   multiply
-00009a42   number_of_characters_in_string
-00009a58   __divu
-00009a58   __remu
-00009a6e   __mpyi_f5hw
-00009a84   delete_audio_sensor
-00009a98   disable_audio_sensor
-00009aac   init_audio_sensor
-00009ac0   set_relay
-00009ad4   uart_send_string
-00009ae8   wait
-00009afc   done_setup
-00009b0e   have_dhcp
-00009b20   init_pll
-00009b32   init_transmits
-00009b44   memcpy
-00009b56   sensor_get_loc
-00009b68   time_set_seconds
-00009b7a   disable_sensor
-00009b8a   html_reset
-00009b9a   init_timer
-00009baa   time_set_clock_time
-00009bba   blink_slow
-00009bc8   blink_slow_alternating
-00009bd6   do_non_blocking_interrupt
-00009be4   init_relay
-00009bf2   init_temperature_sensor
-00009c00   node_get_next
-00009c0e   sample_queued_sensors
-00009c1c   sensor_get_data_array
-00009c2a   sensor_get_end_time
-00009c38   sensor_get_old_array
-00009c46   sensor_get_period
-00009c54   sensor_get_size
-00009c62   sensor_get_trigger_time
-00009c70   strlen
-00009c7e   ready_to_sample
-00009c8a   sensor_get_type
-00009c96   write_2_bytes_to_string
-00009ca2   delete_external_temperature_sensor_A
-00009cac   delete_external_temperature_sensor_B
-00009cb6   delete_internal_temperature_sensor
-00009cc0   delete_light_sensor_A
-00009cca   delete_light_sensor_B
-00009cd4   disable_external_temperature_sensor_A
-00009cde   disable_external_temperature_sensor_B
-00009ce8   disable_internal_temperature_sensor
-00009cf2   disable_light_sensor_A
-00009cfc   disable_light_sensor_B
-00009d06   enable_external_temperature_sensor_A
-00009d10   enable_external_temperature_sensor_B
-00009d1a   enable_internal_temperature_sensor
-00009d24   enable_light_sensor_A
-00009d2e   enable_light_sensor_B
-00009d38   init_light_sensor
-00009d42   is_prompt
-00009d4c   button1_toggled
-00009d4c   toggle_relay
-00009d54   update_leds
-00009d5c   associate
-00009d62   complete_setup
-00009d68   continue_transmits
-00009d6e   get_new_host_ip
-00009d74   get_new_host_name
-00009d7a   get_new_pass
-00009d80   get_new_ssid
-00009d86   get_number_of_slaves
-00009d8c   have_new_host_ip
-00009d92   have_new_host_name
-00009d98   have_new_pass
-00009d9e   have_new_ssid
-00009da4   hold_transmits
-00009daa   is_connected
-00009db0   reset_ack
-00009db6   reset_output_buffer
-00009dbc   set_led_anim
-00009dc2   start_sampling
-00009dc8   stop_sampling
-00009dce   turn_on
-00009dd4   _system_pre_init
-00009dd8   C$$EXIT
-00009dd8   abort
-00009ddc   node_get_val
-00009de0   _nop
-00009de2   temp_lookup_table
-0000ada0   html_submit_button
-0000ae38   html_header_02
-0000aec2   html_header_01
-0000af3c   html_instructions_01
-0000afac   html_instructions_02
-0000b01c   html_header_03
-0000b084   html_number_of_slaves_prefix
-0000b0e4   http_header
-0000b138   html_pass_prefix
-0000b172   html_ssid_prefix
-0000b1a8   html_host_ip_prefix
-0000b1da   html_footer
-0000b1f8   html_host_ip_form
-0000b214   html_pass_form
-0000b230   html_ssid_form
-0000b266   html_input_error
-0000b278   html_host_ip_suffix
-0000b284   html_number_of_slaves_suffix
-0000b290   html_pass_suffix
-0000b29c   html_ssid_suffix
-0000b2a8   SERIAL_NUMBER
+00006abe   voltage_on_full
+00006c8a   write_time_to_string
+00006e36   encode_data_and_old_data_for_transmit
+00006fc8   create_audio_sensor
+0000711a   encode_data_for_transmit
+0000726c   new_one_time_sensor
+000073b8   create_temperature_sensor
+000074f2   new_sensor
+0000761c   alert_slaves
+00007724   run_led_driver
+00007826   leave_setup_mode
+00007924   calculate_wattage
+00007a14   do_setup
+00007aea   write_int_to_string
+00007bba   SetVCoreUp
+00007c84   create_light_sensor
+00007d4c   create_internal_wattage_sensor
+00007e04   detect_audio_use
+00007eb0   html_GET
+00007f5c   sensor_delete
+00008006   malloc
+000080ac   handle_roving_input
+0000814e   SetVCoreDown
+000081ea   create_internal_current_sensor
+00008282   create_internal_voltage_sensor
+0000831a   free
+0000839a   new_time_from_string
+0000841a   fix_time
+00008488   init_internal_wattage_sensor
+000084f6   sample_enabled_sensors
+0000855c   time_set_to_sum
+000085c0   store_uart_input
+0000861a   __divul
+0000861a   __remul
+00008672   add_to_slaves
+000086c8   time_tick
+0000871e   in_main_mode
+00008772   init_buttons
+000087c6   transmit_header
+0000881a   start_setup_mode
+0000886c   store_data_point
+000088bc   transmit_data
+0000890c   host_setup_mode
+0000895a   init_roving
+000089a8   init_adc
+000089f4   in_setup_mode
+00008a3e   _auto_init
+00008a86   is_delimiter
+00008ace   time_cmp
+00008b14   fix_temperature
+00008b56   SetVCore
+00008b96   enter_command_mode
+00008bd6   __divli
+00008bd6   __remli
+00008c16   send_command_with_arg
+00008c56   L_ASR_15
+00008c5a   L_ASR_14
+00008c5e   L_ASR_13
+00008c62   L_ASR_12
+00008c66   L_ASR_11
+00008c6a   L_ASR_10
+00008c6e   L_ASR_9
+00008c72   L_ASR_8
+00008c76   L_ASR_7
+00008c7a   L_ASR_6
+00008c7e   L_ASR_5
+00008c82   L_ASR_4
+00008c86   L_ASR_3
+00008c8a   L_ASR_2
+00008c8e   L_ASR_1
+00008c94   L_LSR_15
+00008c98   L_LSR_14
+00008c9c   L_LSR_13
+00008ca0   L_LSR_12
+00008ca4   L_LSR_11
+00008ca8   L_LSR_10
+00008cac   L_LSR_9
+00008cb0   L_LSR_8
+00008cb4   L_LSR_7
+00008cb8   L_LSR_6
+00008cbc   L_LSR_5
+00008cc0   L_LSR_4
+00008cc4   L_LSR_3
+00008cc8   L_LSR_2
+00008ccc   L_LSR_1
+00008cd2   add_time_to_time
+00008d0c   blink_fast
+00008d46   read_number_from_string
+00008d80   is_valid_string
+00008db8   minit
+00008df0   node_delete
+00008e28   sync_wattage_sensors
+00008e60   disconnect
+00008e96   enable_sensor
+00008ecc   exit_command_mode
+00008f02   handle_full_sensors
+00008f38   reset_roving
+00008f6e   time_copy
+00008fa4   swap_enabled_audio_sensor
+00008fd8   handle_adc_interrupt
+0000900a   check_time
+0000903a   html_write
+0000906a   http_write
+0000909a   send_command
+000090ca   time_set_current
+000090fa   delete_internal_wattage_sensor
+00009128   disable_sensor_args
+00009156   node_delete_next
+00009184   string_starts_with
+000091b2   action_delete
+000091de   button2_toggled
+0000920a   init_clock
+00009236   __divi
+00009236   __remi
+00009262   connect
+0000928c   global_time
+000092b6   is_associated
+000092e0   new_time
+0000930a   prep_leds
+00009334   enable_internal_wattage_sensor
+0000935c   in_setup_master_mode
+00009384   new_transmit_action
+000093ac   sensor_add_action_on_data_full
+000093d4   wait_for
+000093fc   action_delete_list
+00009422   in_setup_slave_mode
+00009446   init_uart
+0000946a   new_node
+0000948e   node_delete_list
+000094b2   roving_call_back
+000094d6   time_clear
+000094fa   action_append_action
+0000951c   node_append
+0000953e   __mpyl_f5hw
+00009560   add_new_host_ip
+00009580   add_new_host_name
+000095a0   add_new_pass
+000095c0   add_new_ssid
+000095e0   delete_internal_current_sensor
+00009600   delete_internal_voltage_sensor
+00009620   disable_internal_current_sensor
+00009640   disable_internal_voltage_sensor
+00009660   enable_internal_current_sensor
+00009680   enable_internal_voltage_sensor
+000096a0   led_ping
+000096c0   send_data
+000096e0   get_celcius
+000096fe   get_dhcp
+0000971c   html_send
+0000973a   new_action
+00009758   sensor_delete_this
+00009776   sensor_disable_this
+00009794   sensor_enable_this
+000097b2   channel_to_loc
+000097ce   disable_internal_wattage_sensor
+000097ea   do_actions
+00009806   send_ip
+00009822   sensor_clear_state
+0000983e   time_delete
+0000985a   does_has_prompt
+00009874   have_ack
+0000988e   in_command_mode
+000098a8   init_leds
+000098c2   init_time
+000098dc   loc_to_channel
+000098f6   not_in_command_mode
+00009910   action_set_args
+00009928   action_set_func
+00009940   enable_audio_sensor
+00009958   have_data_to_transmit
+00009970   reset_setup_info
+00009988   sensor_set_delete_func
+000099a0   sensor_set_disable_func
+000099b8   sensor_set_enable_func
+000099d0   strchr
+000099e8   strcmp
+00009a00   uart_send_array
+00009a18   blink_slow_sliding
+00009a2e   multiply
+00009a44   number_of_characters_in_string
+00009a5a   __divu
+00009a5a   __remu
+00009a70   __mpyi_f5hw
+00009a86   delete_audio_sensor
+00009a9a   disable_audio_sensor
+00009aae   init_audio_sensor
+00009ac2   set_relay
+00009ad6   uart_send_string
+00009aea   wait
+00009afe   done_setup
+00009b10   have_dhcp
+00009b22   init_pll
+00009b34   init_transmits
+00009b46   memcpy
+00009b58   sensor_get_loc
+00009b6a   time_set_seconds
+00009b7c   disable_sensor
+00009b8c   do_non_blocking_interrupt
+00009b9c   html_reset
+00009bac   init_timer
+00009bbc   time_set_clock_time
+00009bcc   blink_slow
+00009bda   blink_slow_alternating
+00009be8   init_relay
+00009bf6   init_temperature_sensor
+00009c04   node_get_next
+00009c12   sample_queued_sensors
+00009c20   sensor_get_data_array
+00009c2e   sensor_get_end_time
+00009c3c   sensor_get_old_array
+00009c4a   sensor_get_period
+00009c58   sensor_get_size
+00009c66   sensor_get_trigger_time
+00009c74   strlen
+00009c82   ready_to_sample
+00009c8e   sensor_get_type
+00009c9a   write_2_bytes_to_string
+00009ca6   delete_external_temperature_sensor_A
+00009cb0   delete_external_temperature_sensor_B
+00009cba   delete_internal_temperature_sensor
+00009cc4   delete_light_sensor_A
+00009cce   delete_light_sensor_B
+00009cd8   disable_external_temperature_sensor_A
+00009ce2   disable_external_temperature_sensor_B
+00009cec   disable_internal_temperature_sensor
+00009cf6   disable_light_sensor_A
+00009d00   disable_light_sensor_B
+00009d0a   enable_external_temperature_sensor_A
+00009d14   enable_external_temperature_sensor_B
+00009d1e   enable_internal_temperature_sensor
+00009d28   enable_light_sensor_A
+00009d32   enable_light_sensor_B
+00009d3c   init_light_sensor
+00009d46   is_prompt
+00009d50   button1_toggled
+00009d50   toggle_relay
+00009d58   update_leds
+00009d60   associate
+00009d66   complete_setup
+00009d6c   continue_transmits
+00009d72   get_new_host_ip
+00009d78   get_new_host_name
+00009d7e   get_new_pass
+00009d84   get_new_ssid
+00009d8a   get_number_of_slaves
+00009d90   have_new_host_ip
+00009d96   have_new_host_name
+00009d9c   have_new_pass
+00009da2   have_new_ssid
+00009da8   hold_transmits
+00009dae   is_connected
+00009db4   reset_ack
+00009dba   reset_output_buffer
+00009dc0   set_led_anim
+00009dc6   start_sampling
+00009dcc   stop_sampling
+00009dd2   turn_on
+00009dd8   _system_pre_init
+00009ddc   C$$EXIT
+00009ddc   abort
+00009de0   node_get_val
+00009de4   _nop
+00009de6   temp_lookup_table
+0000ada4   html_submit_button
+0000ae3c   html_header_02
+0000aec6   html_header_01
+0000af40   html_instructions_01
+0000afb0   html_instructions_02
+0000b020   html_header_03
+0000b088   html_number_of_slaves_prefix
+0000b0e8   http_header
+0000b13c   html_pass_prefix
+0000b176   html_ssid_prefix
+0000b1ac   html_host_ip_prefix
+0000b1de   html_footer
+0000b1fc   html_host_ip_form
+0000b218   html_pass_form
+0000b234   html_ssid_form
+0000b26a   html_input_error
+0000b27c   html_host_ip_suffix
+0000b288   html_number_of_slaves_suffix
+0000b294   html_pass_suffix
+0000b2a0   html_ssid_suffix
+0000b2ac   SERIAL_NUMBER
 0000ffd4   __TI_int42
 0000ffde   __TI_int47
 0000ffe8   __TI_int52

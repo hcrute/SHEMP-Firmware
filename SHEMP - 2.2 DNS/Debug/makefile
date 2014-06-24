@@ -4,7 +4,7 @@
 
 SHELL = cmd.exe
 
-CG_TOOL_ROOT := C:/ti/ccsv5/tools/compiler/msp430_4.2.1
+CG_TOOL_ROOT := c:/ti/ccsv6/tools/compiler/msp430_4.3.1
 
 ORDERED_OBJS += \
 $(GEN_CMDS__FLAG) \
@@ -122,6 +122,12 @@ endif
 -include ../makefile.defs
 
 # Add inputs and outputs from these tool invocations to the build variables 
+EXE_OUTPUTS += \
+SHEMP\ -\ 2.2\ DNS.out \
+
+EXE_OUTPUTS__QUOTED += \
+"SHEMP - 2.2 DNS.out" \
+
 
 # All Target
 all: SHEMP\ -\ 2.2\ DNS.out
@@ -130,13 +136,13 @@ all: SHEMP\ -\ 2.2\ DNS.out
 SHEMP\ -\ 2.2\ DNS.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: MSP430 Linker'
-	"C:/ti/ccsv5/tools/compiler/msp430_4.2.1/bin/cl430" -vmspx --abi=coffabi -g --define=__MSP430F5438A__ --diag_warning=225 --display_error_number --silicon_errata=CPU15 --silicon_errata=CPU18 --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --printf_support=minimal -z -m"SHEMP - 2.2 DNS.map" --stack_size=0x300 --heap_size=0x1800 --use_hw_mpy=F5 -i"C:/ti/ccsv5/ccs_base/msp430/include" -i"C:/ti/ccsv5/tools/compiler/msp430_4.2.1/lib" -i"C:/ti/ccsv5/tools/compiler/msp430_4.2.1/include" --reread_libs --warn_sections --xml_link_info="SHEMP - 2.2 DNS_linkInfo.xml" --rom_model -o "SHEMP - 2.2 DNS.out" $(ORDERED_OBJS)
+	"c:/ti/ccsv6/tools/compiler/msp430_4.3.1/bin/cl430" -vmspx --abi=coffabi -g --define=__MSP430F5438A__ --diag_warning=225 --display_error_number --silicon_errata=CPU15 --silicon_errata=CPU18 --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 --printf_support=minimal -z -m"SHEMP - 2.2 DNS.map" --stack_size=0x300 --heap_size=0x1800 --use_hw_mpy=F5 -i"c:/ti/ccsv6/ccs_base/msp430/include" -i"c:/ti/ccsv6/tools/compiler/msp430_4.3.1/lib" -i"c:/ti/ccsv6/tools/compiler/msp430_4.3.1/include" --reread_libs --warn_sections --xml_link_info="SHEMP - 2.2 DNS_linkInfo.xml" --rom_model -o "SHEMP - 2.2 DNS.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(MSP430_EXECUTABLE_OUTPUTS__QUOTED) "SHEMP - 2.2 DNS.out"
+	-$(RM) $(EXE_OUTPUTS__QUOTED)
 	-$(RM) "audio_sensor.pp" "auxlib.pp" "events.pp" "hal_pmm.pp" "html.pp" "leds.pp" "light_sensor.pp" "linked_list.pp" "main.pp" "roving.pp" "sensors.pp" "shempserver.pp" "temperature_sensor.pp" "time.pp" "uart.pp" "wattage_sensor.pp" 
 	-$(RM) "audio_sensor.obj" "auxlib.obj" "events.obj" "hal_pmm.obj" "html.obj" "leds.obj" "light_sensor.obj" "linked_list.obj" "main.obj" "roving.obj" "sensors.obj" "shempserver.obj" "temperature_sensor.obj" "time.obj" "uart.obj" "wattage_sensor.obj" 
 	-@echo 'Finished clean'
