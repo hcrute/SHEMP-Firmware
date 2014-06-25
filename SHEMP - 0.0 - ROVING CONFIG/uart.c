@@ -65,7 +65,7 @@ void uart_send_array(uint8_t * array, uint16_t length) {
 __interrupt void USCI_A2_ISR(void) {
 	switch(__even_in_range(UCA2IV,4)) {
 	case 0:break;                             // Vector 0 - no interrupt
-	case 2: store_uart_input(UCA2RXBUF);                                // Vector 2 - RXIFG
+	case 2: store_uart_input(UCA2RXBUF);      // Vector 2 - RXIFG
 		break;
 	case 4:break;                             // Vector 4 - TXIFG
 	default: break;
