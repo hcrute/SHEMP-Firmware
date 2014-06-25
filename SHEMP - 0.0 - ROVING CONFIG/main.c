@@ -4,7 +4,6 @@
 
 #include "uart.h"
 #include "hal_pmm.h"
-#include <string.h>
 
 void init_clock() {
 	WDTCTL = WDTPW+WDTHOLD;
