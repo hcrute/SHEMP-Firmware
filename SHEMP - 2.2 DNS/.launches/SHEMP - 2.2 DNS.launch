@@ -17,7 +17,11 @@
 <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_PROGRAM.TI MSP430 USB1/MSP430" value="${build_artifact:SHEMP - 2.2 DNS}"/>
 <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_PROJECT.TI MSP430 USB1/MSP430" value="SHEMP - 2.2 DNS"/>
 <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_TARGET_CONFIG" value="${target_config_active_default:SHEMP - 2.2 DNS}"/>
+<<<<<<< HEAD
 <stringAttribute key="com.ti.ccstudio.debug.debugModel.MRU_PROGRAM.TI MSP430 USB1/MSP430" value="C:/Users\hcrute\Documents\GitHub\SHEMP-Firmware\SHEMP - 2.2 DNS\Debug\SHEMP - 2.2 DNS.out"/>
+=======
+<stringAttribute key="com.ti.ccstudio.debug.debugModel.MRU_PROGRAM.TI MSP430 USB1/MSP430" value="C:/Users\mgsit\Documents\GitHub\SHEMP-Firmware\SHEMP - 2.2 DNS\Debug\SHEMP - 2.2 DNS.out"/>
+>>>>>>> origin/master
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
 <listEntry value="/SHEMP - 2.2 DNS"/>
 </listAttribute>
