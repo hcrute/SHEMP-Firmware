@@ -49,7 +49,7 @@ uint16_t write_index;
 uint8_t have_carrot;
 
 
-uint8_t send_command(uint8_t * string) {
+void send_command(uint8_t * string) {
 	while(!have_carrot);
 	have_carrot = 0;
 
