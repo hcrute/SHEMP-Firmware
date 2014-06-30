@@ -169,6 +169,7 @@ time_ref get_sync_timestamp() {
 	return &sync_time;
 }
 
+
 time_ref global_time() {
 	the_time_frozen.days = the_time.days;
 	the_time_frozen.hours = the_time.hours;
