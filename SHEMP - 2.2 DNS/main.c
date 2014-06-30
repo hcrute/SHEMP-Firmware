@@ -40,6 +40,16 @@
  * You can just skip down to MAIN, everything above it is helper functions
  *
  * Note: there are //TODO statements where I think more work could be done
+ *
+ *
+ *
+ *
+ *
+ *
+ * Summer 2014:
+ * People involved: Ali Adabi, Henry Crute, Michael Sit
+ *
+ * Commit: Still sort of working
  */
 
 #include <msp430.h>
