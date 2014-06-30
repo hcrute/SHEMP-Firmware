@@ -147,6 +147,20 @@ void time_tick() {
 	}
 }
 
+/*
+ * Added by mgsit
+ */
+void set_global_time(uint32_t seconds, uint16_t timer_B_register_count) {
+	the_time.days = seconds / 86400;
+	seconds = seconds % 86400;
+	the_time.hours = seconds / 3600;
+	seconds = seconds % 3600;
+	the_time.minutes = seconds / 60;
+	seconds = seconds % 60;
+	the_time.seconds = seconds;
+	the_time.milliseconds = timer_B_register_count / 32.678;
+}
+
 time_ref global_time() {
 	the_time_frozen.days = the_time.days;
 	the_time_frozen.hours = the_time.hours;

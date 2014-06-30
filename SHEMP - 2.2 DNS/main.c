@@ -78,6 +78,7 @@ uint8_t setup_button_pressed;
 time_ref setup_button_time_trigger;
 time_ref setup_button_time_duration;
 uint32_t timer_B_seconds;
+uint16_t timer_B_register_count;
 
 // This is for handling AUX ports
 #define NUMBER_OF_AUX_PORTS 2
@@ -354,6 +355,8 @@ void main(void) {
 				}
 
 				if(server_wants_header) {
+					timer_B_register_count = TB0R;
+					set_global_time(timer_B_seconds, timer_B_register_count);
 					led_ping();
 					exit_command_mode();
 					transmit_header();
@@ -411,7 +414,7 @@ __interrupt void Port2GPIOHandler(void)
 		}
 
 		//TICK THE TIME
-		time_tick();
+//		time_tick();
 		run_led_driver();
 
 		if (ready_to_sample()) {
