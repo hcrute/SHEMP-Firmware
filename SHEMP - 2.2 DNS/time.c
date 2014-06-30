@@ -10,6 +10,7 @@
 
 struct timestamp the_time;
 struct timestamp the_time_frozen;
+struct timestamp sync_time;
 
 #define CLK_TO_MS 12
 
@@ -150,15 +151,22 @@ void time_tick() {
 /*
  * Added by mgsit
  */
-void set_global_time(uint32_t seconds, uint16_t timer_B_register_count) {
-	the_time.days = seconds / 86400;
+void sync_timestamp(uint32_t seconds, uint16_t timer_B_register_count) {
+	sync_time.days = seconds / 86400;
 	seconds = seconds % 86400;
-	the_time.hours = seconds / 3600;
+	sync_time.hours = seconds / 3600;
 	seconds = seconds % 3600;
-	the_time.minutes = seconds / 60;
+	sync_time.minutes = seconds / 60;
 	seconds = seconds % 60;
-	the_time.seconds = seconds;
-	the_time.milliseconds = timer_B_register_count / 32.678;
+	sync_time.seconds = seconds;
+	sync_time.milliseconds = timer_B_register_count / 32.678;
+}
+
+/*
+ * Added by mgsit
+ */
+time_ref get_sync_timestamp() {
+	return &sync_time;
 }
 
 time_ref global_time() {

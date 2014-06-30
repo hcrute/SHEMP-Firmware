@@ -31,7 +31,12 @@ void time_tick();
 /* Date: 6/30/2014
  * Added by mgsit
  */
-void set_global_time(uint32_t seconds, uint16_t timer_B_register_count);
+void sync_timestamp(uint32_t seconds, uint16_t timer_B_register_count);
+
+/* Date: 6/30/2014
+ * Added by mgsit
+ */
+time_ref get_sync_timestamp();
 
 time_ref global_time();
 uint16_t get_current_ms();

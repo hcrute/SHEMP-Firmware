@@ -78,7 +78,6 @@ uint8_t setup_button_pressed;
 time_ref setup_button_time_trigger;
 time_ref setup_button_time_duration;
 uint32_t timer_B_seconds;
-uint16_t timer_B_register_count;
 
 // This is for handling AUX ports
 #define NUMBER_OF_AUX_PORTS 2
@@ -117,6 +116,7 @@ void init_timer() {
 	TA0CCTL0 = 0; //reset it
 	TA0CTL = TASSEL_1 + MC_2; //ACLK - 32khz
 
+	// Timer B used for timestamp sync; previously timestamp used PLL
 	TBCTL = CNTL_0 + TBSSEL_1 + MC_1; 		// 16-bit counter, ACLK(32.768kHz), UP-mode
 	TB0CCTL0 = CCIE;						// Capture/compare interrupt enable; Compare Interrupt flag is automatically reset when ISR
 	TB0CCR0 =  32767;						// 1 second
@@ -355,10 +355,9 @@ void main(void) {
 				}
 
 				if(server_wants_header) {
-					timer_B_register_count = TB0R;
-					set_global_time(timer_B_seconds, timer_B_register_count);
 					led_ping();
 					exit_command_mode();
+					sync_timestamp(timer_B_seconds, TB0R);
 					transmit_header();
 					wait(100);
 				}
@@ -414,7 +413,7 @@ __interrupt void Port2GPIOHandler(void)
 		}
 
 		//TICK THE TIME
-//		time_tick();
+		time_tick();
 		run_led_driver();
 
 		if (ready_to_sample()) {
