@@ -77,6 +77,7 @@ time_ref check_in_period;
 uint8_t setup_button_pressed;
 time_ref setup_button_time_trigger;
 time_ref setup_button_time_duration;
+uint32_t timer_B_seconds;
 
 // This is for handling AUX ports
 #define NUMBER_OF_AUX_PORTS 2
@@ -114,6 +115,10 @@ void init_timer() {
 	TA0CTL = 0; //halt it
 	TA0CCTL0 = 0; //reset it
 	TA0CTL = TASSEL_1 + MC_2; //ACLK - 32khz
+
+	TBCTL = CNTL_0 + TBSSEL_1 + MC_1; 		// 16-bit counter, ACLK(32.768kHz), UP-mode
+	TB0CCTL0 = CCIE;						// Capture/compare interrupt enable; Compare Interrupt flag is automatically reset when ISR
+	TB0CCR0 =  32767;						// 1 second
 }
 
 void init_pll() {
@@ -255,6 +260,7 @@ void main(void) {
 	init_audio_sensor();
 	init_light_sensor();
 	uint8_t itor = 0;
+	timer_B_seconds = 0;
 	for (itor = 0; itor < NUMBER_OF_AUX_PORTS; itor++) {
 		aux_sensor[itor] = 0;
 	}
@@ -418,6 +424,12 @@ __interrupt void Port2GPIOHandler(void)
 		do_non_blocking_interrupt();
 		inside_non_blocking_interrupt = FALSE;
 	}
+}
+
+#pragma vector=TIMER0_B0_VECTOR
+__interrupt void Timer_B (void)
+{
+	timer_B_seconds += 1;
 }
 
 // ADC10 interrupt service routine
