@@ -159,7 +159,9 @@ void sync_timestamp(uint32_t seconds, uint16_t timer_B_register_count) {
 	sync_time.minutes = seconds / 60;
 	seconds = seconds % 60;
 	sync_time.seconds = seconds;
-	sync_time.milliseconds = timer_B_register_count / 32.678;
+//	sync_time.milliseconds = timer_B_register_count / 32.678;
+	sync_time.milliseconds = 0;
+	sync_time.clock_time = 0;
 }
 
 /*
