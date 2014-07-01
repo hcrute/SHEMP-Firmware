@@ -189,28 +189,25 @@ void init_buttons() {
 	if(aux_sensor_enabled[1]) {
 		P1IES ^= BIT0;
 	}
-
-
 	if(BUTTON_2_DOWN) {
 		button2_toggled();// button is pressed
 	}
-
-
-
 }
 
-uint8_t connect_and_send_header(node_ref args) {
-	uint8_t ret = TRUE;
-	if(!is_connected()) {
-		if(connect()) {
-			transmit_header();
-			ret = SUCCESS;
-		} else {
-			ret = FAILURE;
-		}
-	}
-	return ret;
-}
+//uint8_t connect_and_send_header(node_ref args) {
+//	uint8_t ret = TRUE;
+//	if(!is_connected()) {
+//		if(connect()) {
+//			transmit_header();
+//			ret = SUCCESS;
+//		} else {
+//			ret = FAILURE;
+//		}
+//	}
+//	return ret;
+//}
+
+
 
 
 uint8_t roving_call_back(uint8_t event) {
@@ -225,13 +222,12 @@ uint8_t roving_call_back(uint8_t event) {
 	return SUCCESS;
 }
 
-
-
 /*
  * ****************************************************************************
  *
  *
  * MAIN
+ *
  *
  * ****************************************************************************
  */
@@ -245,8 +241,7 @@ void main(void) {
 	// Have to init the clock first
 	init_clock();
 
-	// These initialize variables
-	// Mostly just zeroing them
+	// Initialize variables
 	okay_to_transmit = FALSE;
 	server_wants_header = FALSE;
 	inside_non_blocking_interrupt = FALSE;
@@ -298,7 +293,6 @@ void main(void) {
 
 
 	// And go!!!
-
 	set_led_anim(led_start);
 
 	// MAIN LOOP

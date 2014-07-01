@@ -117,11 +117,18 @@ void init_time() {
 	the_time.seconds = 0;
 }
 
+/*
+ * Added July 2014 for use with hardware timer b
+ * Uses shifting instead of division.
+ */
 void milli_tick() {
 	the_time.milliseconds = (TB0R >> 5);
 	if (the_time.milliseconds >= 1000) the_time.milliseconds = 999;
 }
 
+/*
+ * Modifed July 2014 for use with hardware timer b
+ */
 void time_tick() {
 	the_time.seconds += 1;
 	if (the_time.seconds >= 60) {
