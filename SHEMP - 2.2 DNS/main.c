@@ -92,7 +92,7 @@ uint8_t aux_sensor_enabled[NUMBER_OF_AUX_PORTS];
 
 void init_clock() {
 //TODO: Implement correct usage of watchdog
-	WDTCTL = WDTPW+WDTHOLD;
+	WDTCTL = WDTPW + WDTHOLD;
 
 	// Raise the internal Core voltage to enable higher clock rates
 	SetVCore(PMMCOREV_3);
@@ -427,6 +427,7 @@ __interrupt void Port2GPIOHandler(void)
 	}
 }
 
+// keep track of time stamp using timer b
 #pragma vector=TIMER0_B0_VECTOR
 __interrupt void Timer_B (void)
 {

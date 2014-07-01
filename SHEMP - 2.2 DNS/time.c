@@ -119,6 +119,7 @@ void init_time() {
 
 void milli_tick() {
 	the_time.milliseconds = (TB0R >> 5);
+	if (the_time.milliseconds >= 1000) the_time.milliseconds = 999;
 }
 
 void time_tick() {
