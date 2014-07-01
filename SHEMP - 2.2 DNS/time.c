@@ -10,7 +10,6 @@
 
 struct timestamp the_time;
 struct timestamp the_time_frozen;
-struct timestamp sync_time;
 
 #define CLK_TO_MS 12
 
@@ -118,59 +117,25 @@ void init_time() {
 	the_time.seconds = 0;
 }
 
+void milli_tick() {
+	the_time.milliseconds = (TB0R >> 5);
+}
+
 void time_tick() {
-	the_time.clock_time++;
-
-	if (the_time.clock_time >= CLK_TO_MS) {
-		the_time.clock_time = 0;
-
-		the_time.milliseconds++;
-		if (the_time.milliseconds == 1000) {
-			the_time.milliseconds = 0;
-
-			the_time.seconds++;
-			if(the_time.seconds == 60) {
-				the_time.seconds = 0;
-
-				the_time.minutes++;
-				if(the_time.minutes == 60) {
-					the_time.minutes = 0;
-
-					the_time.hours++;
-					if(the_time.hours == 24) {
-						the_time.hours = 0;
-
-						the_time.days++;
-					}
-				}
+	the_time.seconds += 1;
+	if (the_time.seconds >= 60) {
+		the_time.seconds = 0;
+		the_time.minutes += 1;
+		if (the_time.minutes >= 60) {
+			the_time.minutes = 0;
+			the_time.hours += 1;
+			if (the_time.hours >= 24) {
+				the_time.hours = 0;
+				the_time.days += 1;
 			}
 		}
 	}
 }
-
-/*
- * Added by mgsit
- */
-void sync_timestamp(uint32_t seconds, uint16_t timer_B_register_count) {
-	sync_time.days = seconds / 86400;
-	seconds = seconds % 86400;
-	sync_time.hours = seconds / 3600;
-	seconds = seconds % 3600;
-	sync_time.minutes = seconds / 60;
-	seconds = seconds % 60;
-	sync_time.seconds = seconds;
-//	sync_time.milliseconds = timer_B_register_count / 32.678;
-	sync_time.milliseconds = 0;
-	sync_time.clock_time = 0;
-}
-
-/*
- * Added by mgsit
- */
-time_ref get_sync_timestamp() {
-	return &sync_time;
-}
-
 
 time_ref global_time() {
 	the_time_frozen.days = the_time.days;
@@ -185,7 +150,6 @@ time_ref global_time() {
 uint16_t get_current_ms() {
 	return the_time.milliseconds;
 }
-
 
 
 uint8_t add_clock_time_to_time(time_ref timestamp, uint16_t fast_time){

@@ -27,16 +27,7 @@ struct timestamp {
 
 void init_time();
 void time_tick();
-
-/* Date: 6/30/2014
- * Added by mgsit
- */
-void sync_timestamp(uint32_t seconds, uint16_t timer_B_register_count);
-
-/* Date: 6/30/2014
- * Added by mgsit
- */
-time_ref get_sync_timestamp();
+void milli_tick();
 
 time_ref global_time();
 uint16_t get_current_ms();

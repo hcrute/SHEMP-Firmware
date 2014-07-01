@@ -357,7 +357,6 @@ void main(void) {
 				if(server_wants_header) {
 					led_ping();
 					exit_command_mode();
-					sync_timestamp(timer_B_seconds, TB0R);
 					transmit_header();
 					wait(100);
 				}
@@ -413,7 +412,7 @@ __interrupt void Port2GPIOHandler(void)
 		}
 
 		//TICK THE TIME
-		time_tick();
+		milli_tick();
 		run_led_driver();
 
 		if (ready_to_sample()) {
@@ -431,7 +430,7 @@ __interrupt void Port2GPIOHandler(void)
 #pragma vector=TIMER0_B0_VECTOR
 __interrupt void Timer_B (void)
 {
-	timer_B_seconds += 1;
+	time_tick();
 }
 
 // ADC10 interrupt service routine

@@ -246,7 +246,7 @@ uint8_t transmit_header() {
 
 	reset_ack();
 	while(!have_ack()) {
-		write_time_to_string(&header[HEADER_TIME_PTR], get_sync_timestamp());
+		write_time_to_string(&header[HEADER_TIME_PTR], global_time());
 		uart_send_array((uint8_t *)header, HEADER_LENGTH);
 		wait_for(&have_ack, 500);
 	}
