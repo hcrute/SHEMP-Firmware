@@ -692,6 +692,7 @@ uint8_t is_delimiter(uint8_t character) {
 
 uint8_t is_prompt(uint8_t character) {
 	if (character == '>') return TRUE;
+	return FALSE;
 }
 
 void convert_string_to_ip_in_hex(uint8_t * string, uint8_t * ip_addr) {

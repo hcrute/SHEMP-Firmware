@@ -8,7 +8,7 @@
 #include "shempserver.h"
 
 
-const uint8_t SERIAL_NUMBER[] = "000007";
+const uint8_t SERIAL_NUMBER[] = "000011";
 
 
 uint8_t output_buffer[OUTPUT_BUFFER_SIZE];
@@ -229,8 +229,6 @@ uint8_t transmit_data() {
 	return FAILURE;
 }
 
-uint8_t header[] = "L00THSxxxxxxt00000000000000X";
-
 #define HEADER_LENGTH 28 // 0x1C00
 #define HEADER_LENGTH_PTR 1
 
@@ -240,6 +238,7 @@ uint8_t header[] = "L00THSxxxxxxt00000000000000X";
 #define HEADER_SERIAL_LENGTH 6
 
 uint8_t transmit_header() {
+	uint8_t header[] = "L00THSxxxxxxt00000000000000X";
 	// Set up header
 	write_2_bytes_to_string(&header[HEADER_LENGTH_PTR], HEADER_LENGTH);
 	memcpy(&header[HEADER_SERIAL_PTR], SERIAL_NUMBER, HEADER_SERIAL_LENGTH);
@@ -265,3 +264,4 @@ action_ref new_transmit_action(sensor_ref s) {
 	//d//debug_pop();
 	return tx;
 }
+

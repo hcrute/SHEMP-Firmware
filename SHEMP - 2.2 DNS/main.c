@@ -262,7 +262,7 @@ void main(void) {
 	}
 
 	// These initialize functions and interrupts
-	init_timer();
+	init_timer(); // init hardware timers
 	init_time();
 	init_leds();
 	init_relay();
