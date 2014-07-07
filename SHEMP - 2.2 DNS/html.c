@@ -128,7 +128,7 @@ uint8_t html_GET(uint8_t * destination, uint8_t * src, uint8_t * key) {
 	// Here we search for the existence of the key in the string
 	while(*cur_ptr != 0) {
 		if(string_starts_with(key,cur_ptr)) {
-			value = &cur_ptr[strlen(key)];
+			value = &cur_ptr[strlen((char *)key)];
 			break;
 		}
 		cur_ptr = &cur_ptr[1];
@@ -149,11 +149,12 @@ uint8_t html_GET(uint8_t * destination, uint8_t * src, uint8_t * key) {
 	temp_character = *cur_ptr;
 	*cur_ptr = 0;
 
-	if(strlen(value) == 0) return FAILURE;
+	if(strlen((char *)value) == 0) return FAILURE;
 
 
 	if(destination) {
-		if(strlen(value)+1 < MAX_VARCHAR_LENGTH) memcpy(destination, value, strlen(value)+1); //+1 for null plug
+		//+1 for null plug
+		if(strlen((char *)value)+1 < MAX_VARCHAR_LENGTH) memcpy(destination, value, strlen((char *)value)+1);
 		else return FAILURE;
 	}
 
@@ -172,14 +173,14 @@ void parse_http_request(uint8_t * request) {
 	// First, have to parse it
 	if(html_GET(temp_varchar, request, "SSID=")) {
 		if(is_valid_string(temp_varchar)) {
-			add_new_ssid(temp_varchar, strlen(temp_varchar));
+			add_new_ssid(temp_varchar, strlen((char *)temp_varchar));
 		} else {
 			ssid_error = TRUE;
 		}
 	}
 	if(html_GET(temp_varchar, request, "PASS="))  {
 		if(is_valid_string(temp_varchar)) {
-			add_new_pass(temp_varchar, strlen(temp_varchar));
+			add_new_pass(temp_varchar, strlen((char *)temp_varchar));
 		} else {
 			pass_error = TRUE;
 		}
@@ -188,9 +189,9 @@ void parse_http_request(uint8_t * request) {
 		if(is_valid_string(temp_varchar)) {
 			if(number_of_characters_in_string(temp_varchar, '.') == 3) {
 				// If the number of '.' in the host is equal to 3
-				add_new_host_ip(temp_varchar, strlen(temp_varchar));
+				add_new_host_ip(temp_varchar, strlen((char *)temp_varchar));
 			} else {
-				add_new_host_name(temp_varchar, strlen(temp_varchar));
+				add_new_host_name(temp_varchar, strlen((char *)temp_varchar));
 			}
 
 		} else {
@@ -224,7 +225,7 @@ void parse_http_request(uint8_t * request) {
 	if(get_number_of_slaves()) {
 		html_write((uint8_t *)html_number_of_slaves_prefix, STRLEN(html_number_of_slaves_prefix));
 		write_int_to_string(html_number_of_slaves_field,get_number_of_slaves()+1);
-		html_write((uint8_t *)html_number_of_slaves_field, strlen(html_number_of_slaves_field));
+		html_write((uint8_t *)html_number_of_slaves_field, strlen((char *)html_number_of_slaves_field));
 		html_write((uint8_t *)html_number_of_slaves_suffix, STRLEN(html_number_of_slaves_suffix));
 	}
 
@@ -232,7 +233,7 @@ void parse_http_request(uint8_t * request) {
 	// SSID Row
 	html_write((uint8_t *)html_ssid_prefix, STRLEN(html_ssid_prefix));
 	if(have_new_ssid()) {
-		html_write((uint8_t *)get_new_ssid(), strlen(get_new_ssid()));
+		html_write((uint8_t *)get_new_ssid(), strlen((char *)get_new_ssid()));
 	} else {
 		html_write((uint8_t *)html_ssid_form, STRLEN(html_ssid_form));
 		if(ssid_error) html_write((uint8_t *)html_input_error, STRLEN(html_input_error));
@@ -244,7 +245,7 @@ void parse_http_request(uint8_t * request) {
 	// PASS Row
 	html_write((uint8_t *)html_pass_prefix, STRLEN(html_pass_prefix));
 	if(have_new_pass()) {
-		html_write((uint8_t *)get_new_pass(), strlen(get_new_pass()));
+		html_write((uint8_t *)get_new_pass(), strlen((char *)get_new_pass()));
 	} else {
 		html_write((uint8_t *)html_pass_form, STRLEN(html_pass_form));
 		if(pass_error) html_write((uint8_t *)html_input_error, STRLEN(html_input_error));
@@ -255,9 +256,9 @@ void parse_http_request(uint8_t * request) {
 	// PASS Row
 	html_write((uint8_t *)html_host_ip_prefix, STRLEN(html_host_ip_prefix));
 	if(have_new_host_ip()) {
-		html_write((uint8_t *)get_new_host_ip(), strlen(get_new_host_ip()));
+		html_write((uint8_t *)get_new_host_ip(), strlen((char *)get_new_host_ip()));
 	} else if (have_new_host_name()) {
-		html_write((uint8_t *)get_new_host_name(), strlen(get_new_host_name()));
+		html_write((uint8_t *)get_new_host_name(), strlen((char *)get_new_host_name()));
 	} else {
 		html_write((uint8_t *)html_host_ip_form, STRLEN(html_host_ip_form));
 		if(host_ip_error) html_write((uint8_t *)html_input_error, STRLEN(html_input_error));

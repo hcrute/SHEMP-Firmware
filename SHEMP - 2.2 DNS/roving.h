@@ -31,6 +31,7 @@ extern uint8_t parse_shemp_command(uint8_t * string, uint16_t length);
 uint8_t init_roving(uint8_t (*call_back_function)(uint8_t event));
 uint8_t confirm_roving();
 void reset_roving();
+uint8_t reset_setup_info();
 uint8_t enter_command_mode();
 uint8_t exit_command_mode();
 uint8_t send_command(uint8_t * command);

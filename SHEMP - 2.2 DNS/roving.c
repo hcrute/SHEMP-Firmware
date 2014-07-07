@@ -221,7 +221,7 @@ uint8_t is_associated() {
 }
 
 uint8_t associate() {
-	if(!is_associated) {
+	if(!is_associated()) {
 		send_command("join");
 		wait_for(&is_associated, 500);
 	}
@@ -447,7 +447,7 @@ uint8_t get_number_of_slaves() {
 
 uint8_t add_to_slaves(uint8_t * slave_ip_string) {
 	number_of_slaves++;
-	uint8_t ip_len = strlen(slave_ip_string) + 1;//+1 for null plug
+	uint8_t ip_len = strlen((char *)slave_ip_string) + 1;//+1 for null plug
 
 	uint8_t * ip_copy = malloc(sizeof(uint8_t) * ip_len);
 	if(!ip_copy) return FALSE;
@@ -546,19 +546,19 @@ uint8_t leave_setup_mode() {
 	}
 
 	if(new_ssid_flag) {
-		memcpy(ssid,new_ssid,strlen(new_ssid)+1);
+		memcpy(ssid,new_ssid,strlen((char *)new_ssid)+1);
 		send_command_with_arg("set w s",ssid);
 	}
 	if(new_pass_flag) {
-		memcpy(pass,new_pass,strlen(new_pass)+1);
+		memcpy(pass,new_pass,strlen((char *)new_pass)+1);
 		send_command_with_arg("set w p",pass);
 	}
 	if(new_host_ip_flag) {
-		memcpy(host_ip,new_host_ip,strlen(new_host_ip)+1);
+		memcpy(host_ip,new_host_ip,strlen((char *)new_host_ip)+1);
 		send_command_with_arg("set i h",host_ip);
 	}
 	if(new_host_name_flag) {
-		memcpy(host_name,new_host_name,strlen(new_host_name)+1);
+		memcpy(host_name, new_host_name, strlen((char *)new_host_name)+1);
 		send_command("set i h 0"); //have to clear the
 		send_command_with_arg("set d n", host_name);
 	}
@@ -711,13 +711,13 @@ void convert_string_to_ip_in_hex(uint8_t * string, uint8_t * ip_addr) {
 
 
 void parse_string(uint8_t * string) {
-	uint16_t length = strlen(string); //null plug
-	uint8_t * end;
-	uint8_t * equals_sign;
-	uint8_t str_length;
+	uint16_t length = strlen((char *)string); //null plug
+	uint8_t * end = NULL;
+	uint8_t * equals_sign = NULL;
+	uint8_t str_length = 0;
 
 
-	if (!command_mode) if(length == 3) if (strcmp("CMD",string) == 0) {
+	if (!command_mode) if(length == 3) if (strcmp("CMD",(char *)string) == 0) {
 		command_mode = TRUE;
 		has_prompt = TRUE;
 		return;
@@ -726,33 +726,33 @@ void parse_string(uint8_t * string) {
 
 	if (command_mode) {
 
-		equals_sign = strchr(string, '=');
+		equals_sign = (uint8_t *)strchr((char *)string, '=');
 
 		if (equals_sign) {
 			equals_sign[0] = 0; //null plug it
-			if(strcmp(string,"IP") == 0) {
-				end = strchr(&equals_sign[1], ':');
+			if(strcmp((char *)string,"IP") == 0) {
+				end = (uint8_t *)strchr((char *)&equals_sign[1], ':');
 				*end = 0; //null plug
 				length = end-equals_sign;
 				memcpy(ip,&equals_sign[1],length);
 				ip[str_length] = 0;
 				return;
 			}
-			if(strcmp(string,"HOST") == 0) {
-				end = strchr(&equals_sign[1], ':');
+			if(strcmp((char *)string,"HOST") == 0) {
+				end = (uint8_t *)strchr((char *)&equals_sign[1], ':');
 				*end = 0;
 				length = end-equals_sign;
-				memcpy(host_ip,&equals_sign[1],length);
+				memcpy(host_ip, &equals_sign[1], length);
 				host_ip[str_length] = 0;
 				return;
 			}
-			if(strcmp(string,"SSID") == 0) {
+			if(strcmp((char *)string,"SSID") == 0) {
 				str_length = length - 4;
-				memcpy(ssid,&equals_sign[1],str_length);
+				memcpy(ssid, &equals_sign[1], str_length);
 				ssid[str_length] = 0;
 				return;
 			}
-			if(strcmp(string,"Assoc") == 0) {
+			if(strcmp((char *)string,"Assoc") == 0) {
 				if (equals_sign[1] == 'O' && equals_sign[2] == 'K') {
 					assoc = TRUE;
 					return;
@@ -762,7 +762,7 @@ void parse_string(uint8_t * string) {
 					return;
 				}
 			}
-			if(strcmp(string,"DHCP") == 0) {
+			if(strcmp((char *)string,"DHCP") == 0) {
 				if (equals_sign[1] == 'O' && equals_sign[2] == 'K') {
 					dhcp = TRUE;
 					return;
@@ -777,17 +777,17 @@ void parse_string(uint8_t * string) {
 					return;
 				}
 			}
-			if(strcmp(string,"DeviceId") == 0) {
+			if(strcmp((char *)string,"DeviceId") == 0) {
 				// we use DeviceId on the WiFly module to act as the name of the mode
-				if (strcmp(&equals_sign[1], "main_config") == 0) {
+				if (strcmp((char *)&equals_sign[1], "main_config") == 0) {
 					config_mode = main_config;
 					return;
 				}
-				if (strcmp(&equals_sign[1], "setup_slave") == 0) {
+				if (strcmp((char *)&equals_sign[1], "setup_slave") == 0) {
 					config_mode = setup_slave;
 					return;
 				}
-				if (strcmp(&equals_sign[1], "setup_master") == 0) {
+				if (strcmp((char *)&equals_sign[1], "setup_master") == 0) {
 					config_mode = setup_master;
 					return;
 				}
@@ -797,25 +797,25 @@ void parse_string(uint8_t * string) {
 			equals_sign[0] = '='; //revert it
 		}
 
-		if(strcmp("ERR:Connected!", string) == 0) {
+		if(strcmp("ERR:Connected!", (char *)string) == 0) {
 			wait(4000);
 			//TODO Handle this case better
 			// Wait for the timeout
 			return;
 		}
 
-		if(strcmp("Connect FAILED", string) == 0) {
+		if(strcmp("Connect FAILED", (char *)string) == 0) {
 			wait(100);
 			//TODO Handle this case better
 			return;
 		}
 
-		if(strcmp("EXIT",string) == 0) {
+		if(strcmp("EXIT", (char *)string) == 0) {
 			command_mode = FALSE;
 			return;
 		}
 
-		if(strcmp("Associated!",string) == 0) {
+		if(strcmp("Associated!", (char *)string) == 0) {
 			assoc = TRUE;
 			return;
 		}
@@ -836,44 +836,44 @@ void parse_string(uint8_t * string) {
 			}
 
 
-			if (strcmp("CLOS",string) == 0) {
+			if (strcmp("CLOS", (char *)string) == 0) {
 				socket_open = FALSE;
 				call_back(DISCONNECT_EVENT);
 				return;
 			}
-			if (strcmp(ACK_STRING,string) == 0) {
+			if (strcmp(ACK_STRING, (char *)string) == 0) {
 				have_ack_flag = TRUE;
 				return;
 			}
-			if (strcmp("DONE SETUP",string) == 0) {
+			if (strcmp("DONE SETUP", (char *)string) == 0) {
 				complete_setup();
 				return;
 			}
 
 
-			equals_sign = strchr(string, '=');
+			equals_sign = (uint8_t *)strchr((char *)string, '=');
 			if (equals_sign) {
 				equals_sign[0] = 0; //null plug it
 				end = &string[length];
 				length = end-&equals_sign[1];
 
-				if(strcmp(string,"SSID") == 0) {
+				if(strcmp((char *)string, "SSID") == 0) {
 					add_new_ssid(&equals_sign[1],length);
 					return;
 				}
-				if(strcmp(string,"PASS") == 0) {
+				if(strcmp((char *)string, "PASS") == 0) {
 					add_new_pass(&equals_sign[1],length);
 					return;
 				}
-				if(strcmp(string,"HOST_IP") == 0) {
+				if(strcmp((char *)string, "HOST_IP") == 0) {
 					add_new_host_ip(&equals_sign[1],length);
 					return;
 				}
-				if(strcmp(string,"HOST_NAME") == 0) {
+				if(strcmp((char *)string, "HOST_NAME") == 0) {
 					add_new_host_name(&equals_sign[1],length);
 					return;
 				}
-				if(strcmp(string,"SLAVE_IP") == 0) {
+				if(strcmp((char *)string, "SLAVE_IP") == 0) {
 					add_to_slaves(&equals_sign[1]);
 					return;
 				}
@@ -885,14 +885,14 @@ void parse_string(uint8_t * string) {
 
 
 
-	if(string_starts_with("Disconn",string)) {
+	if(string_starts_with("Disconn", string)) {
 		assoc = FALSE;
 		dhcp = FALSE;
 		return;
 	}
 
 
-	if (strcmp("OPEN",string) == 0) {
+	if (strcmp("OPEN", (char *)string) == 0) {
 		command_mode = FALSE;
 		socket_open = TRUE;
 		call_back(CONNECT_EVENT);

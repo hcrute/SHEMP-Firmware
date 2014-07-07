@@ -86,7 +86,6 @@ void wait(uint16_t wait_ms);
 uint8_t wait_for(uint8_t (*break_func)(), uint16_t wait_ms);
 
 // not used
-event_ref new_timer_event(uint8_t timer, uint16_t period, uint8_t repeat, uint16_t repeat_count);
 #define CLOCK_TIME 0
 #define MILLISECONDS 1
 #define SECONDS 2

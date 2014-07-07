@@ -231,7 +231,7 @@ uint8_t action_delete_list(action_ref * a_ptr);
  *
  * Returns SUCCESS or FAILURE
  */
-uint8_t action_set_func(action_ref a, uint8_t (*func)(node_ref));
+uint8_t action_set_func(action_ref a, uint8_t (*func)());
 
 /*
  * uint8_t action_set_args(action_ref a, node_ref args);

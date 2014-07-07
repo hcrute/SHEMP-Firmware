@@ -32,7 +32,7 @@ void init_uart() {
 }
 
 void uart_send_string(uint8_t * string) {
-	uint16_t length = strlen(string);
+	uint16_t length = strlen((char *)string);
 	uart_send_array(string, length);
 }
 
