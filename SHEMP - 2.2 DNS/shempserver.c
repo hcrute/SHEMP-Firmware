@@ -8,7 +8,7 @@
 #include "shempserver.h"
 
 // This is hardcoded serial number
-const uint8_t SERIAL_NUMBER[] = "000011";
+const uint8_t SERIAL_NUMBER[] = "000007";
 
 
 uint8_t output_buffer[OUTPUT_BUFFER_SIZE];
@@ -219,11 +219,7 @@ uint8_t transmit_data() {
 
 	reset_ack();
 
-	if (output_buffer[read_ptr] == 'L') {
-		uart_send_array(&output_buffer[read_ptr], end_ptr-read_ptr);
-	} else {
-		exit(1);
-	}
+	uart_send_array(&output_buffer[read_ptr], end_ptr-read_ptr);
 
 	if(wait_for(&have_ack, 500)) {
 		read_ptr = end_ptr;

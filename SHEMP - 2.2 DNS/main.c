@@ -91,9 +91,6 @@ uint8_t aux_sensor_enabled[NUMBER_OF_AUX_PORTS];
 // Heap: 0x1800 = 6144 //default 160
 
 void init_clock() {
-//TODO: Implement correct usage of watchdog
-	WDTCTL = WDTPW + WDTHOLD;
-
 	// Raise the internal Core voltage to enable higher clock rates
 	SetVCore(PMMCOREV_3);
 
@@ -238,6 +235,10 @@ uint8_t roving_call_back(uint8_t event) {
 uint8_t main_mode;
 
 void main(void) {
+	// Use watchdog to reset SHEMP, due to hangup issue
+	WDTCTL = WDTPW + WDTSSEL__ACLK + WDTIS_3; // 50 sec?
+//	WDTCTL = WDTPW + WDTHOLD; // disable watchdog
+
 	// Have to init the clock first
 	init_clock();
 
@@ -297,6 +298,8 @@ void main(void) {
 
 	// MAIN LOOP
 	while(1) {
+		WDTCTL = WDTPW + WDTSSEL__ACLK + WDTIS_3 + WDTCNTCL;
+
 		handle_roving_input();
 
 		// Check if it a long hold
@@ -359,6 +362,7 @@ void main(void) {
 					led_ping();
 					exit_command_mode();
 					transmit_data();
+					reset_output_buffer();
 				}
 
 
