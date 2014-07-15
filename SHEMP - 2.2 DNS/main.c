@@ -49,7 +49,8 @@
  * Summer 2014:
  * People involved: Ali Adabi, Henry Crute, Michael Sit
  *
- * Commit: Still sort of working
+ * 12 kHz PLL interrupt is unstable. 11.5kHz - 12.5kHz.
+ *
  */
 
 #include <msp430.h>
@@ -93,10 +94,7 @@ uint8_t aux_sensor_enabled[NUMBER_OF_AUX_PORTS];
 void init_clock() {
 	// Raise the internal Core voltage to enable higher clock rates
 	SetVCore(PMMCOREV_3);
-
 	__bis_SR_register(SCG0);                  // Disable the FLL control loop
-
-
 	//UCSCTL0 = DCO0 * 20;					// 24mHz - 204 uart divider
 	//UCSCTL0 = DCO0 * 19;					// 22.2 mHz - 193 uart divider
 	//UCSCTL0 = DCO0 * 18;					// 20.6 mHz - 179 uart divider
@@ -114,8 +112,9 @@ void init_timer() {
 	TA0CTL = TASSEL_1 + MC_2; //ACLK - 32khz
 
 	// Timer B used for timestamp sync; previously timestamp used PLL
+	// Timer B is sorced from internal 32.768khz clock, clock drift maybe an issue. But still better than unstable PLL.
 	TBCTL = CNTL_0 + TBSSEL_1 + MC_1; 		// 16-bit counter, ACLK(32.768kHz), UP-mode
-	TB0CCTL0 = CCIE;						// Capture/compare interrupt enable; Compare Interrupt flag is automatically reset when ISR
+	TB0CCTL0 = CCIE;						// Capture/compare interrupt enable; Compare Interrupt flag is automatically reset during ISR
 	TB0CCR0 =  32767;						// 1 second
 }
 
@@ -379,7 +378,7 @@ void main(void) {
 
 
 void do_non_blocking_interrupt() {
-	_enable_interrupts();
+//	_enable_interrupts();
 	// Because we have re-enabled interrupts in here, the 12kHz interrupt can happen again
 	// But because we set the flag "inside_non_blocking_interrupt", this will not get called
 	// again until this pops off the stack.
@@ -388,7 +387,7 @@ void do_non_blocking_interrupt() {
 
 	handle_full_sensors();
 
-	_disable_interrupts();
+//	_disable_interrupts();
 }
 
 // This is the 12kHz thread.
@@ -410,7 +409,7 @@ __interrupt void Port2GPIOHandler(void)
 		}
 
 		//TICK THE TIME
-		milli_tick();
+		time_tick();
 		run_led_driver();
 
 		if (ready_to_sample()) {
@@ -429,7 +428,7 @@ __interrupt void Port2GPIOHandler(void)
 #pragma vector=TIMER0_B0_VECTOR
 __interrupt void Timer_B (void)
 {
-	time_tick();
+	tb_tick();
 }
 
 // ADC10 interrupt service routine

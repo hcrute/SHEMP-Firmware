@@ -10,6 +10,7 @@
 
 struct timestamp the_time;
 struct timestamp the_time_frozen;
+struct timestamp tb_time;
 
 #define CLK_TO_MS 12
 
@@ -118,31 +119,50 @@ void init_time() {
 }
 
 /*
- * Added July 2014 for use with hardware timer b
- * Uses shifting instead of division.
- */
-void milli_tick() {
-	the_time.milliseconds = (TB0R >> 5);
-	if (the_time.milliseconds >= 1000) the_time.milliseconds = 999;
-}
-
-/*
- * Modifed July 2014 for use with hardware timer b
+ * Reverted back to PLL ISR since real power requires PLL lock
  */
 void time_tick() {
-	the_time.seconds += 1;
-	if (the_time.seconds >= 60) {
-		the_time.seconds = 0;
-		the_time.minutes += 1;
-		if (the_time.minutes >= 60) {
-			the_time.minutes = 0;
-			the_time.hours += 1;
-			if (the_time.hours >= 24) {
-				the_time.hours = 0;
-				the_time.days += 1;
+	the_time.clock_time += 1;
+	if (the_time.clock_time >= CLK_TO_MS) {
+		the_time.clock_time = 0;
+		the_time.milliseconds += 1;
+		if (the_time.milliseconds >= 1000) {
+			the_time.milliseconds = 0;
+			the_time.seconds += 1;
+			if (the_time.seconds >= 60) {
+				the_time.seconds = 0;
+				the_time.minutes += 1;
+				if (the_time.minutes >= 60) {
+					the_time.minutes = 0;
+					the_time.hours += 1;
+					if (the_time.hours >= 24) {
+						the_time.hours = 0;
+						the_time.days += 1;
+					}
+				}
 			}
 		}
 	}
+}
+
+void tb_tick() {
+	tb_time.seconds += 1;
+	if (tb_time.seconds >= 60) {
+		tb_time.seconds = 0;
+		tb_time.minutes += 1;
+		if (tb_time.minutes >= 60) {
+			tb_time.minutes = 0;
+			tb_time.hours += 1;
+			if (tb_time.hours >= 24) {
+				tb_time.hours = 0;
+				tb_time.days += 1;
+			}
+		}
+	}
+}
+
+time_ref get_tb_time() {
+	return &tb_time;
 }
 
 time_ref global_time() {
