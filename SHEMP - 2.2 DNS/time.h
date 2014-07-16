@@ -39,10 +39,7 @@ uint8_t time_delete(time_ref * time_ref_ptr);
 
 // increments global time by one second using hard timer B.
 void time_tick();
-
-// Timestamp tick since PLL is unstable @ 11.5 - 12.5 kHz
-void tb_tick();
-time_ref get_tb_time();
+void PLL_tick();
 
 // Copy global timestamp to frozen timestamp struct.
 time_ref global_time();

@@ -108,7 +108,6 @@ uint8_t time_delete(time_ref * time_ref_ptr) {
 	return SUCCESS;
 }
 
-
 void init_time() {
 	the_time.clock_time = 0;
 	the_time.days = 0;
@@ -119,51 +118,34 @@ void init_time() {
 }
 
 /*
- * Reverted back to PLL ISR since real power requires PLL lock
+ * Changed to use Timer B due to unstable
  */
 void time_tick() {
+	the_time.seconds += 1;
+	if (the_time.seconds >= 60) {
+		the_time.seconds = 0;
+		the_time.minutes += 1;
+		if (the_time.minutes >= 60) {
+			the_time.minutes = 0;
+			the_time.hours += 1;
+			if (the_time.hours >= 24) {
+				the_time.hours = 0;
+				the_time.days += 1;
+			}
+		}
+	}
+}
+
+void PLL_tick() {
 	the_time.clock_time += 1;
-	if (the_time.clock_time >= CLK_TO_MS) {
+
+	if (the_time.clock_time >= 12) {
 		the_time.clock_time = 0;
 		the_time.milliseconds += 1;
-		if (the_time.milliseconds >= 1000) {
-			the_time.milliseconds = 0;
-			the_time.seconds += 1;
-			if (the_time.seconds >= 60) {
-				the_time.seconds = 0;
-				the_time.minutes += 1;
-				if (the_time.minutes >= 60) {
-					the_time.minutes = 0;
-					the_time.hours += 1;
-					if (the_time.hours >= 24) {
-						the_time.hours = 0;
-						the_time.days += 1;
-					}
-				}
-			}
-		}
+		if (the_time.milliseconds >= 1000) the_time.milliseconds = 0;
 	}
 }
 
-void tb_tick() {
-	tb_time.seconds += 1;
-	if (tb_time.seconds >= 60) {
-		tb_time.seconds = 0;
-		tb_time.minutes += 1;
-		if (tb_time.minutes >= 60) {
-			tb_time.minutes = 0;
-			tb_time.hours += 1;
-			if (tb_time.hours >= 24) {
-				tb_time.hours = 0;
-				tb_time.days += 1;
-			}
-		}
-	}
-}
-
-time_ref get_tb_time() {
-	return &tb_time;
-}
 
 time_ref global_time() {
 	the_time_frozen.days = the_time.days;

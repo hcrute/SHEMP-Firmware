@@ -47,9 +47,9 @@
  *
  *
  * Summer 2014:
- * People involved: Ali Adabi, Henry Crute, Michael Sit
- *
- * 12 kHz PLL interrupt is unstable. 11.5kHz - 12.5kHz.
+ * 12 kHz PLL interrupt is unstable. 11.5kHz - 12.5kHz. Causing timestamp to run faster/slower.
+ * Fixed 58 compiler warnings.
+ * Added Watchdog timer
  *
  */
 
@@ -189,21 +189,6 @@ void init_buttons() {
 		button2_toggled();// button is pressed
 	}
 }
-
-//uint8_t connect_and_send_header(node_ref args) {
-//	uint8_t ret = TRUE;
-//	if(!is_connected()) {
-//		if(connect()) {
-//			transmit_header();
-//			ret = SUCCESS;
-//		} else {
-//			ret = FAILURE;
-//		}
-//	}
-//	return ret;
-//}
-
-
 
 
 uint8_t roving_call_back(uint8_t event) {
@@ -409,7 +394,7 @@ __interrupt void Port2GPIOHandler(void)
 		}
 
 		//TICK THE TIME
-		time_tick();
+		PLL_tick();
 		run_led_driver();
 
 		if (ready_to_sample()) {
@@ -424,11 +409,11 @@ __interrupt void Port2GPIOHandler(void)
 	}
 }
 
-// keep track of time stamp using timer b
+// keep track of time stamp using timer b because PLL is unstable
 #pragma vector=TIMER0_B0_VECTOR
 __interrupt void Timer_B (void)
 {
-	tb_tick();
+	time_tick();
 }
 
 // ADC10 interrupt service routine
