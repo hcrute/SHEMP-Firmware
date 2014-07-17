@@ -5,7 +5,8 @@
  *      Author: nabercro
  *
  *  Update: 7/1/2014
- *  Added comments and cleaned up code
+ *  Author: mgsit
+ *  Notes: Added comments and cleaned up code
  */
 
 #ifndef THE_TIME_H_

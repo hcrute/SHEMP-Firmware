@@ -48,8 +48,9 @@
  *
  * Summer 2014:
  * 12 kHz PLL interrupt is unstable. 11.5kHz - 12.5kHz. Causing timestamp to run faster/slower.
+ * Added timer b clocked from REFO to track timestamp
  * Fixed 58 compiler warnings.
- * Added Watchdog timer
+ * Added Watchdog
  *
  */
 
@@ -219,9 +220,8 @@ uint8_t roving_call_back(uint8_t event) {
 uint8_t main_mode;
 
 void main(void) {
-	// Use watchdog to reset SHEMP, due to hangup issue
+	// Use watchdog to reset SHEMP
 	WDTCTL = WDTPW + WDTSSEL__ACLK + WDTIS_3; // 50 sec?
-//	WDTCTL = WDTPW + WDTHOLD; // disable watchdog
 
 	// Have to init the clock first
 	init_clock();

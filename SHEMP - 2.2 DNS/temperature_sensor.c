@@ -131,6 +131,7 @@ sensor_ref internal_temperature_sensor;
 sensor_ref external_temperature_sensor_A;
 sensor_ref external_temperature_sensor_B;
 
+// set sensor array to celcius
 uint8_t fix_temperature(node_ref args) {
 
 	sensor_ref s = node_get_val(args);
