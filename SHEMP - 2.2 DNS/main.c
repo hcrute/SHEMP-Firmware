@@ -43,14 +43,22 @@
  *
  *
  *
- *
- *
- *
  * Summer 2014:
- * 12 kHz PLL interrupt is unstable. 11.5kHz - 12.5kHz. Causing timestamp to run faster/slower.
- * Added timer b clocked from REFO to track timestamp
- * Fixed 58 compiler warnings.
- * Added Watchdog
+ * - 12 kHz PLL interrupt is unstable. 11.5kHz - 12.5kHz. Causing timestamp to run faster/slower.
+ * - Added timer b clocked from REFO to track timestamp
+ * - Fixed 58 compiler warnings.
+ * - Added Watchdog
+ *
+ * Concerns:
+ * If a global variable is being modified by multiple threads
+ * (i.e., the main process, ISRs, and other hardware functions),
+ * there is a chance of the variable getting corrupted.
+ *
+ * Having multiple function calls inside an ISR can lead to excessive stack usage,
+ * either because of storing of SFRs or local variables.
+ *
+ * Since there are so many delay functions used by roving,
+ * Most other operations are performed inside ISRs.
  *
  */
 
@@ -88,9 +96,10 @@ typedef uint8_t (*Function) (void);
 sensor_ref aux_sensor[NUMBER_OF_AUX_PORTS];
 uint8_t aux_sensor_enabled[NUMBER_OF_AUX_PORTS];
 
-//TODO REMEMBER TO CHANGE HEAP SIZE IN LINKER OPTIONS TO SOMETHING LARGE
+//TODO REMEMBER TO CHANGE HEAP SIZE IN LINKER OPTIONS TO SOMETHING LARGE.
 // Stack: 0x300 = 768 //default 160
 // Heap: 0x1800 = 6144 //default 160
+// Done
 
 void init_clock() {
 	// Raise the internal Core voltage to enable higher clock rates
@@ -113,7 +122,7 @@ void init_timer() {
 	TA0CTL = TASSEL_1 + MC_2; //ACLK - 32khz
 
 	// Timer B used for timestamp sync; previously timestamp used PLL
-	// Timer B is sorced from internal 32.768khz clock, clock drift maybe an issue. But still better than unstable PLL.
+	// Timer B is sourced from internal 32.768khz clock, clock drift maybe an issue. But still better than unstable PLL.
 	TBCTL = CNTL_0 + TBSSEL_1 + MC_1; 		// 16-bit counter, ACLK(32.768kHz), UP-mode
 	TB0CCTL0 = CCIE;						// Capture/compare interrupt enable; Compare Interrupt flag is automatically reset during ISR
 	TB0CCR0 =  32767;						// 1 second
@@ -220,8 +229,8 @@ uint8_t roving_call_back(uint8_t event) {
 uint8_t main_mode;
 
 void main(void) {
-	// Use watchdog to reset SHEMP
-	WDTCTL = WDTPW + WDTSSEL__ACLK + WDTIS_3; // 50 sec?
+	// Watchdog timer 60 seconds
+	WDTCTL = WDTPW + WDTSSEL__ACLK + WDTIS_3;
 
 	// Have to init the clock first
 	init_clock();
@@ -275,14 +284,15 @@ void main(void) {
 	last_connect_time = new_time();
 	check_in_period = new_time();
 	time_set_seconds(check_in_period, 5);
-
-
 	// And go!!!
 	set_led_anim(led_start);
 
+
+
+
 	// MAIN LOOP
 	while(1) {
-		WDTCTL = WDTPW + WDTSSEL__ACLK + WDTIS_3 + WDTCNTCL;
+		WDTCTL = WDTPW + WDTSSEL__ACLK + WDTIS_3 + WDTCNTCL; // Pat the Dog
 
 		handle_roving_input();
 
@@ -300,7 +310,6 @@ void main(void) {
 				setup_button_pressed = FALSE;
 			}
 		}
-
 
 		// MAIN BEHAVIOR
 		// There is setup_mode and main_mode.
@@ -322,33 +331,32 @@ void main(void) {
 			}
 
 			if(!is_associated()) {
-				associate();
+				associate(); 				// blocking
 			} else if (!have_dhcp()) {
-				get_dhcp();
+				get_dhcp(); 				// blocking
 			} else {
 				if(is_connected()) set_led_anim(led_main_connected);
 				else set_led_anim(led_main_assoc);
 
 				if(!is_connected() && (time_cmp(global_time(), last_connect_time) >= 0) ) {
 					// If we are not connected, and enough time has passed, connect
-					connect();
+					connect(); 				// blocking
 					add_time_to_time(last_connect_time, check_in_period);
 				}
 
 				if(server_wants_header) {
 					led_ping();
-					exit_command_mode();
+					exit_command_mode(); 	// blocking
 					transmit_header();
 					wait(100);
 				}
 
 				if(okay_to_transmit && have_data_to_transmit()) {
 					led_ping();
-					exit_command_mode();
+					exit_command_mode(); 	// blocking
 					transmit_data();
 					reset_output_buffer();
 				}
-
 
 			}
 		} else {
@@ -467,9 +475,11 @@ __interrupt void Port1GPIOHandler(void)
 		//SW2
 		P1IFG &= ~BIT7;
 		button2_toggled();
-		P1IES ^= BIT7; //toggle direction
+		P1IES ^= BIT7; // toggle direction
 	}
 }
+
+
 
 
 /* When the roving module receives a packet that starts with @, it passes the rest
