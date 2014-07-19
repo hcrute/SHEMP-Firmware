@@ -55,13 +55,19 @@ void start_sampling() {
 void stop_sampling() {
 	sampling_state = paused;
 }
+
 uint8_t ready_to_sample() {
 	if(sampling_state == ready) return TRUE;
 	else return FALSE;
 }
 
 
-
+/* Malloc new sensor struct and array member, set members and add to sensor list.
+ * Param type, define sensor type, wattage, temperature, current, etc.
+ * Param channel, ADC channel used to sample sensor.
+ * Param period, period of each sample.
+ * Param data_array_size, define number of samples, each sample stored into an array member of sensor struct.
+ */
 sensor_ref new_sensor(uint8_t type, uint8_t channel, time_ref period, uint16_t data_array_size) {
 	sensor_ref s = 0;
 	node_ref n = 0;
@@ -127,7 +133,9 @@ sensor_ref new_sensor(uint8_t type, uint8_t channel, time_ref period, uint16_t d
 	return FAILURE;
 }
 
-
+/* Clear sensor data, count, trigger
+ * Param sensor_ref, members of sensor struct are modified
+ */
 uint8_t sensor_clear_state(sensor_ref s) {
 	if(!s) return FAILURE;
 	s->count = 0;
@@ -136,7 +144,7 @@ uint8_t sensor_clear_state(sensor_ref s) {
 	return SUCCESS;
 }
 
-
+// Used by audio senso, see new_sensor()
 sensor_ref new_one_time_sensor(uint8_t type, uint8_t channel, time_ref period, uint16_t data_array_size) {
 	sensor_ref s = 0;
 	node_ref n = 0;
@@ -193,9 +201,7 @@ sensor_ref new_one_time_sensor(uint8_t type, uint8_t channel, time_ref period, u
 		if(sensor_list) node_append(sensor_list, n);
 		else sensor_list = n;
 
-
 		// ALL THE OTHER STUFF!
-
 
 		// Since we dont need the second array, lets just remove it.
 		//free(s->data_array);
@@ -243,9 +249,9 @@ uint8_t sensor_delete(sensor_ref * sensor_ptr_ptr) {
 	sensor_ref s = *sensor_ptr_ptr;
 	if (!(s)) return SUCCESS; //pointer is to a null pointer, sensor is already deleted?
 	//if (s->data_count > 0) return FAILURE; //cannot delete it yet, data must be sent
-
 	node_ref cur_node = 0;
 	node_ref prev_node = 0;
+
 	// If there are sensors in the sensor_list, perhaps this one is, so we must remove it
 	if(sensor_list) {
 		cur_node = sensor_list;
@@ -274,7 +280,6 @@ uint8_t sensor_delete(sensor_ref * sensor_ptr_ptr) {
 
 	// Free the arrays
 	free(s->write_array);
-
 	if(s->data_array != s->write_array) {
 		// Had to add this if statement, because the "single use" sensors share the same data and write array
 		free(s->data_array);
@@ -283,11 +288,10 @@ uint8_t sensor_delete(sensor_ref * sensor_ptr_ptr) {
 
 	// Free itself
 	free(s);
-
 	(*sensor_ptr_ptr) = 0;
-
 	return SUCCESS;
 }
+
 
 uint8_t enable_sensor_args(node_ref args) {
 	if (!args) return FAILURE;
@@ -301,6 +305,9 @@ uint8_t enable_sensor_args(node_ref args) {
 	return SUCCESS;
 }
 
+/* Set sensor struct members to enabled and time'
+ * Param s, sensor struct pointer
+ */
 uint8_t enable_sensor(sensor_ref s) {
 	if(!s) return FAILURE;
 	if(s->enabled == TRUE) return SUCCESS;
@@ -312,6 +319,9 @@ uint8_t enable_sensor(sensor_ref s) {
 	return SUCCESS;
 }
 
+/* Set sensor struct members to disabled
+ * Param s, sensor struct pointer
+ */
 uint8_t disable_sensor(sensor_ref s) {
 	if(!s) return FAILURE;
 	s->enabled = FALSE;
@@ -331,8 +341,10 @@ uint8_t disable_sensor_args(node_ref args) {
 	return SUCCESS;
 }
 
-
-
+/* Set sensor struct to delete_this
+ * Param s, sensor struct pointer
+ * Param delete function pointer
+ */
 uint8_t sensor_set_delete_func(sensor_ref s, uint8_t (*delete_func)()) {
 	if(!s) return FAILURE;
 	if(!delete_func) return FAILURE;
@@ -341,6 +353,10 @@ uint8_t sensor_set_delete_func(sensor_ref s, uint8_t (*delete_func)()) {
 	return SUCCESS;
 }
 
+/* Set sensor struct to disable_this
+ * Param s, sensor struct pointer
+ * Param disable function pointer
+ */
 uint8_t sensor_set_disable_func(sensor_ref s, uint8_t (*disable_func)()) {
 	if(!s) return FAILURE;
 	if(!disable_func) return FAILURE;
@@ -348,6 +364,11 @@ uint8_t sensor_set_disable_func(sensor_ref s, uint8_t (*disable_func)()) {
 	s->disable_this = disable_func;
 	return SUCCESS;
 }
+
+/* Set sensor struct to enable_this
+ * Param s, sensor struct pointer
+ * Param enable function pointer
+ */
 uint8_t sensor_set_enable_func(sensor_ref s, uint8_t (*enable_func)()) {
 	if(!s) return FAILURE;
 	if(!enable_func) return FAILURE;
@@ -355,18 +376,30 @@ uint8_t sensor_set_enable_func(sensor_ref s, uint8_t (*enable_func)()) {
 	s->enable_this = enable_func;
 	return SUCCESS;
 }
+
+/* if sensor is set to delete, delete
+ * Param, sensor struct pointer
+ */
 uint8_t sensor_delete_this(sensor_ref s) {
 	if(!s) return FAILURE;
 	if(!s->delete_this) return FAILURE;
 	s->delete_this();
 	return SUCCESS;
 }
+
+/* if sensor is set to enable, enable
+ * Param, sensor struct pointer
+ */
 uint8_t sensor_enable_this(sensor_ref s) {
 	if(!s) return FAILURE;
 	if(!s->enable_this) return FAILURE;
 	s->enable_this();
 	return SUCCESS;
 }
+
+/* if sensor is set to disable, disable
+ * Param, sensor struct pointer
+ */
 uint8_t sensor_disable_this(sensor_ref s) {
 	if(!s) return FAILURE;
 	if(!s->disable_this) return FAILURE;
@@ -374,10 +407,9 @@ uint8_t sensor_disable_this(sensor_ref s) {
 	return SUCCESS;
 }
 
-
-
-
-
+/* Wrapper functions to retrieve sensor struct members
+ * Param sensor struct pointer
+ */
 int16_t * sensor_get_data_array(sensor_ref s) {
 	if(!s) return FAILURE;
 	return s->data_array;
@@ -386,7 +418,6 @@ int16_t * sensor_get_old_array(sensor_ref s) {
 	if(!s) return FAILURE;
 	return s->old_array;
 }
-
 uint8_t sensor_get_type(sensor_ref s) {
 	if(!s) return FAILURE;
 	return s->type;
@@ -412,6 +443,9 @@ uint8_t sensor_get_loc(sensor_ref s) {
 	return channel_to_loc(s->adc_channel);
 }
 
+
+
+// used by audio sensor
 uint8_t loc_to_channel(uint8_t loc) {
 	if(loc == 'A') {
 		return PORT_A_ADC;
@@ -433,14 +467,13 @@ uint8_t channel_to_loc(uint8_t channel) {
 }
 
 
-
-
+/* For each enabled sensor in list, put into AD12 sensor array queue for sampling?
+ * This function is called frequently by the main 12khz interrupt thread
+ */
 uint8_t sample_enabled_sensors() {
 	if(!ready_to_sample()) return FAILURE;
-
 	node_ref cur_node = sensor_list;
 	sensor_ref cur_sensor = 0;
-
 	int8_t queue_counter = 0;
 
 	while(cur_node && (queue_counter <= 15)) {
@@ -448,7 +481,6 @@ uint8_t sample_enabled_sensors() {
 		cur_sensor = (sensor_ref)node_get_val(cur_node);
 
 		if(cur_sensor->enabled) {
-
 			if(check_time(cur_sensor->period, cur_sensor->trigger_time)) {
 				// The sensor should be sampled
 				ADC12_SENSORS[queue_counter] = cur_sensor;
@@ -467,18 +499,21 @@ uint8_t sample_enabled_sensors() {
 }
 
 
-
+/* Set ADC registers to enable and start
+ *
+ */
 uint8_t sample_queued_sensors() {
 	sampling_state = sampling;
-
 	ADC12CTL0 |= ADC12ENC + ADC12SC; //enable and start
-
 	return SUCCESS;
 }
 
+/* store data point into sensor struct's array, if array is full, swap arrays and set data_ready
+ * Param s, sensor struct pointer
+ * Param measurement, uint16 data point
+ */
 uint8_t store_data_point(sensor_ref s, uint16_t measurement) {
 	if (!s) return FAILURE;
-
 	// Store the point
 	s->write_array[s->count] = measurement;
 	// Increment the counter
@@ -488,25 +523,23 @@ uint8_t store_data_point(sensor_ref s, uint16_t measurement) {
 	if(s->count == s->size) {
 		// Reset count
 		s->count = 0;
-
 		// Store time
 		time_set_current(s->end_time);
-
 		// Swap arrays
 		int16_t * tmp = s->data_array;
 		s->data_array = s->write_array;
 		s->write_array = s->old_array;
 		s->old_array = tmp;
-
 		// Data is ready
 		s->data_ready = TRUE;
 	}
 	return SUCCESS;
 }
 
-
+/* for each sensor in sensor array queue, store ADC value into sensor struct's array
+ *
+ */
 uint8_t handle_adc_interrupt() {
-
 	uint8_t queue_itor = 0;
 	sensor_ref cur_sensor;
 
@@ -528,9 +561,9 @@ uint8_t handle_adc_interrupt() {
 	return SUCCESS;
 }
 
+
 uint8_t handle_full_sensors() {
 	//d//debug_push_int(d_handle_full_sensors);
-
 	node_ref cur_node = sensor_list;
 	sensor_ref cur_sensor = 0;
 

@@ -498,7 +498,8 @@ uint8_t parse_shemp_command(uint8_t * string, uint16_t length) {
 		// And then clear output buffer
 		reset_output_buffer();
 
-	} else if(string[cur_index] == 'R') {
+	}
+	else if(string[cur_index] == 'R') {
 		// Relay
 		cur_index++;
 		if (string[cur_index] == 'N') {
@@ -507,28 +508,27 @@ uint8_t parse_shemp_command(uint8_t * string, uint16_t length) {
 			set_relay(OFF);
 		}
 		cur_index++;
-	} else if (string[cur_index] == 'H') {
+	}
+	else if (string[cur_index] == 'H') {
 		// Sync with header
 		cur_index++;
 		server_wants_header = TRUE;
 		okay_to_transmit = FALSE;
-		//transmit_header();
-	} else if(string[cur_index] == 'K') {
+	}
+	else if(string[cur_index] == 'K') {
 		// Okay to transmit
 		cur_index++;
 		server_wants_header = FALSE;
 		okay_to_transmit = TRUE;
-	} else if(string[cur_index] == 'S') {
+	}
+	else if(string[cur_index] == 'S') {
 		cur_index++;
 		// Sensor configuration
-
 		uint8_t sensor_loc = 0;
 		uint8_t sensor_type = 0;
 		uint8_t sensor_state = 0;
-
 		time_ref sensor_period = 0;
 		uint16_t sensor_size = 0;
-
 		uint8_t sensor_index = 0;
 
 		#define ENABLED 'E'
@@ -540,13 +540,16 @@ uint8_t parse_shemp_command(uint8_t * string, uint16_t length) {
 				// Location
 				sensor_loc = string[cur_index];
 				cur_index++;
-			} else if(string[cur_index] == 'T') {
+			}
+			else if(string[cur_index] == 'T') {
 				cur_index++;
 				// Type
 				sensor_type = string[cur_index];
 			 	cur_index++;
-			} else if(string[cur_index] == 's') {
+			}
+			else if(string[cur_index] == 's') {
 				cur_index++;
+
 				// State
 				if(string[cur_index] == 'E') {
 					cur_index++;
@@ -555,11 +558,13 @@ uint8_t parse_shemp_command(uint8_t * string, uint16_t length) {
 					cur_index++;
 					sensor_state = DISABLED;
 				}
-			} else if(string[cur_index] == 'P') {
+			}
+			else if(string[cur_index] == 'P') {
 				cur_index++;
 				sensor_period = new_time_from_string(&string[cur_index]);
 				cur_index += STRING_TO_TIME_LENGTH;
-			} else 	if(string[cur_index] == 'C') {
+			}
+			else if(string[cur_index] == 'C') {
 				cur_index++;
 				sensor_size = read_number_from_string(&string[cur_index], 5);
 				cur_index += 5;
@@ -581,7 +586,8 @@ uint8_t parse_shemp_command(uint8_t * string, uint16_t length) {
 						enable_internal_wattage_sensor();
 					}
 				}
-			} else if (sensor_type == 'V') {
+			}
+			else if (sensor_type == 'V') {
 				// Handle internal voltage sensor
 				if (sensor_state == DISABLED) disable_internal_voltage_sensor();
 				else if (sensor_state == ENABLED) {
@@ -593,7 +599,8 @@ uint8_t parse_shemp_command(uint8_t * string, uint16_t length) {
 						enable_internal_voltage_sensor();
 					}
 				}
-			} else if (sensor_type == 'I') {
+			}
+			else if (sensor_type == 'I') {
 				// Handle internal current sensor
 				if (sensor_state == DISABLED) disable_internal_current_sensor();
 				else if (sensor_state == ENABLED) {
@@ -605,7 +612,8 @@ uint8_t parse_shemp_command(uint8_t * string, uint16_t length) {
 						enable_internal_current_sensor();
 					}
 				}
-			} else if (sensor_type == 'T') {
+			}
+			else if (sensor_type == 'T') {
 				// Handle internal temperature sensor
 				// It can be enabled, disabled, period and size changed
 				if (sensor_state == DISABLED) disable_internal_temperature_sensor();
@@ -620,7 +628,10 @@ uint8_t parse_shemp_command(uint8_t * string, uint16_t length) {
 				}
 			}
 
-		} else if (sensor_loc == 'A' || sensor_loc == 'B') {
+		}
+
+
+		else if (sensor_loc == 'A' || sensor_loc == 'B') {
 			sensor_index = sensor_loc - 'A';
 
 			if(sensor_state == DISABLED) {

@@ -30,6 +30,7 @@ struct sensor;
 
 
 //TODO Move this to sensors.c
+// Sensor struct to hold generic sensor data
 struct sensor{
 	uint8_t type;
 	uint8_t adc_channel;
@@ -54,7 +55,6 @@ struct sensor{
 	uint8_t (*enable_this)();
 	uint8_t (*disable_this)();
 };
-
 
 
 uint8_t init_adc();

@@ -29,31 +29,23 @@ struct timestamp {
 	uint16_t days;
 };
 
-// malloc and init new timestamp struct.
 time_ref new_time();
 
-// set global timestamp to zero.
 void init_time();
 
-// free timestamp from heap.
 uint8_t time_delete(time_ref * time_ref_ptr);
 
-// increments global time by one second using hard timer B.
 void time_tick();
 void PLL_tick();
 
-// Copy global timestamp to frozen timestamp struct.
 time_ref global_time();
 
-// Get current global milliseconds.
 uint16_t get_current_ms();
 
 uint8_t add_time_to_time(time_ref result_time, time_ref add_time);
 
-// Add timestamp A and B to Dest.
 uint8_t time_set_to_sum(time_ref dest, time_ref a, time_ref b);
 
-// Set members of timestamp t.
 uint8_t time_set_clock_time(time_ref t, uint16_t clock_time);
 uint8_t time_set_milliseconds(time_ref t, uint16_t milliseconds);
 uint8_t time_set_seconds(time_ref t, uint8_t seconds);
@@ -65,19 +57,14 @@ uint8_t time_clear(time_ref time);
 
 uint8_t check_time_args(node_ref args);
 
-// Return true if global time passed trigger and
-// trigger = global time + period, else return false.
 uint8_t check_time(time_ref period, time_ref trigger);
 
-// Set timestamp t to global time.
 uint8_t time_set_current(time_ref t);
 
 time_ref time_copy(time_ref original);
 
-// Calculate timestamp A - B.
 int16_t time_cmp(time_ref a, time_ref b);
 
-// Reflow time struct to standard time format.
 uint8_t fix_time(time_ref t);
 
 // delay function using hardware timer a.

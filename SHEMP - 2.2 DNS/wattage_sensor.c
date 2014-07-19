@@ -9,9 +9,11 @@
 
 #include "wattage_sensor.h"
 
-#define VOL_CUR_PERIOD (12000/2400)
-#define VOL_CUR_SIZE	(12000/(VOL_CUR_PERIOD*60) * 5) //5 60hz cycles
+#define VOL_CUR_PERIOD (12000/2400) // 5
+#define VOL_CUR_SIZE	(12000/(VOL_CUR_PERIOD*60) * 5) //5 60hz cycles, =200 Samples per cycle
 #define WATTAGE_SIZE	(12) //1 second
+
+#define NOISE_THRESHOLD 1000
 
 uint8_t calculate_wattage();
 
@@ -53,7 +55,9 @@ uint16_t voltage_settling_counter;
 uint16_t current_settling_counter;
 #define SETTLING_TIME 12 //one second
 
-
+/* Initialize global variables
+ *
+ */
 void init_internal_wattage_sensor() {
 	/* init some variables */
 	voltage_sensor = 0;
@@ -81,14 +85,14 @@ void init_internal_wattage_sensor() {
 	power_average = 0;
 	power_low_passed = 0;
 
-
 	wattage_settling_counter = SETTLING_TIME;
 	current_settling_counter = SETTLING_TIME;
 	voltage_settling_counter = SETTLING_TIME;
-
 }
 
-
+/* Clear current, voltage, wattage sensor structs
+ * Members of these structs cleared are data, count, trigger
+ */
 uint8_t sync_wattage_sensors() {
 	stop_sampling();
 
@@ -98,19 +102,18 @@ uint8_t sync_wattage_sensors() {
 
 	voltage_is_ready = FALSE;
 	current_is_ready = FALSE;
-
 	wattage_settling_counter = SETTLING_TIME;
 	voltage_settling_counter = SETTLING_TIME;
 	voltage_settling_counter = SETTLING_TIME;
 
 	start_sampling();
-
 	return SUCCESS;
 }
 
-
+/*
+ * Params node pointer
+ */
 uint8_t current_on_full(node_ref args) {
-
 	int16_t * current_array = 0;
 	int16_t current_value = 0;
 	int16_t previous_current_value = 0;
@@ -119,15 +122,15 @@ uint8_t current_on_full(node_ref args) {
 	// For "interesting" detection
 	new_current = 0;
 
-	current_array = sensor_get_data_array(current_sensor);
+	current_array = sensor_get_data_array(current_sensor); // get from sensor struct
 
 	// With the data acquired, now we can loop through it and fix it for the reference
 	int32_t current_sum = 0;
 	uint16_t itor;
+
+	//Sum up current array and calc mean current
 	for(itor = 0; itor < VOL_CUR_SIZE; itor++) {
 		current_reading = current_array[itor];
-
-
 		// Since it is a sine wave, it is centered at 0, so lets sum them up
 		current_sum += current_reading;
 	}
@@ -135,16 +138,13 @@ uint8_t current_on_full(node_ref args) {
 
 	// Could low pass it right here
 	int32_t current_difference = (int32_t)current_average-(int32_t)current_reference;
-	current_reference += (int32_t)current_difference>>(int32_t)1;
+	current_reference += (int32_t)current_difference>>(int32_t)1; // Current difference from reference divide by 2 and add to new ref.
 
-
+	// Put current minus reference (current value) into current_array
 	for(itor = 0; itor < VOL_CUR_SIZE; itor++) {
 		current_reading = current_array[itor];
-
 		// Calculate Current
-		// Current is the current reading minus its reference (centered at 3.3/2)
 		current_value = (int16_t)(current_reading-(int32_t)current_reference);
-		//current_value = current_reference;
 
 		// Check our threshold.  If it is under 10, then it must be noise
 		if(current_value <= 10 && current_value >= -10) { // TODO magic number
@@ -157,15 +157,16 @@ uint8_t current_on_full(node_ref args) {
 			previous_current_value = current_value;
 		}
 
-
 		current_array[itor] = current_value;
 
+		// Accumulate current values into new_current
 		if(current_value > 0) {
 			new_current = (int32_t)new_current + (int32_t)current_value;
 		} else {
 			new_current = (int32_t)new_current - (int32_t)current_value;
 		}
 	}
+
 
 	if(current_settling_counter > 0) {
 		current_settling_counter--;
@@ -189,7 +190,9 @@ uint8_t current_on_full(node_ref args) {
 
 		// Find the difference in current levels
 		uint32_t diff_current;
-		if((uint32_t)stable_current > (uint32_t)new_current) diff_current = (uint32_t)stable_current - (uint32_t)new_current;
+		if((uint32_t)stable_current > (uint32_t)new_current) {
+			diff_current = (uint32_t)stable_current - (uint32_t)new_current;
+		}
 		else diff_current = (uint32_t)new_current - (uint32_t)stable_current;
 
 		// Check the size of of diff_current vs the msb bit
@@ -197,7 +200,8 @@ uint8_t current_on_full(node_ref args) {
 		if((uint32_t)diff_current > (uint32_t)threshold_msb_bit) {
 			current_is_interesting = TRUE;
 
-			if(stable_current < 3000 && new_current < 3000) { //this check is to see if both are in the noise threshold
+			//this check is to see if both are in the noise threshold
+			if(stable_current < NOISE_THRESHOLD && new_current < NOISE_THRESHOLD) {
 				current_is_interesting = FALSE;  // I calculated this by doing average(abs(sin(x))) * NOISE * 200 data pts
 			}
 
@@ -223,15 +227,11 @@ uint8_t current_on_full(node_ref args) {
 		}
 	}
 
-
-
-
 	if(should_transmit_wattage && voltage_is_ready && current_is_ready) {
 		calculate_wattage();
 		current_is_ready = FALSE;
 		voltage_is_ready = FALSE;
 	}
-
 
 	return SUCCESS;
 }
@@ -251,14 +251,14 @@ uint8_t voltage_on_full(node_ref args) {
 
 	// With the data acquired, now we can loop through it and fix it for the reference
 	int32_t voltage_sum = 0;
+
 	uint16_t itor;
 	for(itor = 0; itor < VOL_CUR_SIZE; itor++) {
 		voltage_reading = voltage_array[itor];
-
-
 		// Since it is a sine wave, it is centered at 0, so lets sum them up
 		voltage_sum += voltage_reading;
 	}
+
 	int32_t voltage_average = (int32_t)voltage_sum/(int32_t)VOL_CUR_SIZE;
 
 	// Could low pass it right here
@@ -273,7 +273,7 @@ uint8_t voltage_on_full(node_ref args) {
 		voltage_value = (int16_t)(voltage_reading-voltage_reference);
 
 		// Check our threshold.  If it is under 30, then it must be under 5 volts and must be noise
-		if(voltage_value < 30 && voltage_value > -30) {// TODO magic number
+		if(voltage_value < 1 && voltage_value > -1) {// TODO magic number
 		  voltage_value = 0;
 		}
 
@@ -287,7 +287,6 @@ uint8_t voltage_on_full(node_ref args) {
 		}
 
 	}
-
 
 	if(voltage_settling_counter > 0) {
 		voltage_settling_counter--;
@@ -317,14 +316,13 @@ uint8_t voltage_on_full(node_ref args) {
 		uint32_t threshold_msb_bit = (uint32_t)stable_msb_bit >>(uint32_t)WATTAGE_THRESHOLD_BITS;
 		if((uint32_t)diff_voltage > (uint32_t)threshold_msb_bit) {
 			voltage_is_interesting = TRUE;
-			if(stable_voltage < 3000 && new_voltage < 3000) { //this check is to see if both are in the noise threshold
+			if(stable_voltage < NOISE_THRESHOLD && new_voltage < NOISE_THRESHOLD) { //this check is to see if both are in the noise threshold
 				voltage_is_interesting = FALSE;  // I calculated this by doing average(abs(sin(x))) * NOISE * 200 data pts
 			}
 
 			stable_voltage = new_voltage;
 
 		}
-
 
 		if(send_next_voltage) {
 			send_next_voltage = FALSE;
@@ -342,14 +340,11 @@ uint8_t voltage_on_full(node_ref args) {
 	}
 
 
-
 	if(should_transmit_wattage && current_is_ready && voltage_is_ready) {
 		calculate_wattage();
 		current_is_ready = FALSE;
 		voltage_is_ready = FALSE;
 	}
-
-
 	return SUCCESS;
 }
 
@@ -414,6 +409,9 @@ uint8_t calculate_wattage() {
 
 /// *********************** CREATE SENSORS
 
+/* Create current sensor struct if they do not already exist
+ * Param period and size of sensor from inbound packet
+ */
 uint8_t create_internal_current_sensor(time_ref period, uint16_t size) {
 	if(current_sensor) {
 		// We already have one
@@ -454,7 +452,9 @@ uint8_t create_internal_current_sensor(time_ref period, uint16_t size) {
 	return FAILURE;
 }
 
-
+/* Create voltage sensor struct if they do not already exist
+ * Param period and size of sensor from inbound packet
+ */
 uint8_t create_internal_voltage_sensor(time_ref period, uint16_t size) {
 	if(voltage_sensor) {
 		// We already have one
@@ -496,7 +496,9 @@ uint8_t create_internal_voltage_sensor(time_ref period, uint16_t size) {
 }
 
 
-
+/* Create wattage sensor struct if they do not already exist
+ * Param period and size of sensor from inbound packet
+ */
 uint8_t create_internal_wattage_sensor(time_ref period, uint16_t size) {
 	if(wattage_sensor) {
 		// We already have one
@@ -514,11 +516,9 @@ uint8_t create_internal_wattage_sensor(time_ref period, uint16_t size) {
 
 	//Use a for loop so we can do a break statement for error checking
 	for(;;) {
-
 		// Create all the sensors
 		wattage_sensor = new_sensor('W', 0, period, size);
 		if(!wattage_sensor) break;
-
 
 		// We give period to the internal sensors, because they need to use
 		// the struct temporarily.  Could get around this by allocating a new
