@@ -13,7 +13,8 @@
 #define VOL_CUR_SIZE	(12000/(VOL_CUR_PERIOD*60) * 5) //5 60hz cycles, =200 Samples per cycle
 #define WATTAGE_SIZE	(12) //1 second
 
-#define NOISE_THRESHOLD 1000
+#define INTERESTING_THRESHOLD 3000
+#define CURRENT_NOISE 8 // = 0.16A
 
 uint8_t calculate_wattage();
 
@@ -146,8 +147,8 @@ uint8_t current_on_full(node_ref args) {
 		// Calculate Current
 		current_value = (int16_t)(current_reading-(int32_t)current_reference);
 
-		// Check our threshold.  If it is under 10, then it must be noise
-		if(current_value <= 10 && current_value >= -10) { // TODO magic number
+		// Check our threshold.  If it is under 10, then it must be noise - No load
+		if(current_value <= CURRENT_NOISE && current_value >= -CURRENT_NOISE) {
 			if(previous_current_value == 0) {
 				current_value = 0;
 			} else {
@@ -197,14 +198,13 @@ uint8_t current_on_full(node_ref args) {
 
 		// Check the size of of diff_current vs the msb bit
 		uint32_t threshold_msb_bit = (uint32_t)stable_msb_bit >>(uint32_t)WATTAGE_THRESHOLD_BITS;
+
 		if((uint32_t)diff_current > (uint32_t)threshold_msb_bit) {
 			current_is_interesting = TRUE;
-
 			//this check is to see if both are in the noise threshold
-			if(stable_current < NOISE_THRESHOLD && new_current < NOISE_THRESHOLD) {
+			if(stable_current < INTERESTING_THRESHOLD && new_current < INTERESTING_THRESHOLD) {
 				current_is_interesting = FALSE;  // I calculated this by doing average(abs(sin(x))) * NOISE * 200 data pts
-			}
-
+			} // This does not scale.
 			stable_current = new_current;
 		}
 
@@ -216,8 +216,7 @@ uint8_t current_on_full(node_ref args) {
 			encode_data_for_transmit(args);
 			continue_transmits();
 		} else if(current_is_interesting) {
-			current_reference -= (int32_t)current_difference>>(int32_t)1; // If its interesting, we shouldn't use it to figure
-			// out the reference
+			current_reference -= (int32_t)current_difference>>(int32_t)1;
 
 			current_is_interesting = FALSE;
 
@@ -265,17 +264,19 @@ uint8_t voltage_on_full(node_ref args) {
 	int32_t voltage_difference = (int32_t)voltage_average-(int32_t)voltage_reference;
 	voltage_reference += (int32_t)voltage_difference>>(int32_t)1;
 
+
+
+
 	for(itor = 0; itor < VOL_CUR_SIZE; itor++) {
 		voltage_reading = voltage_array[itor];
 
-		// Calculate Current
 		// Current is the voltage reading minus its reference (centered at 3.3/2)
 		voltage_value = (int16_t)(voltage_reading-voltage_reference);
 
-		// Check our threshold.  If it is under 30, then it must be under 5 volts and must be noise
-		if(voltage_value < 1 && voltage_value > -1) {// TODO magic number
-		  voltage_value = 0;
-		}
+//		 Check our threshold.  If it is under 30, then it must be under 5 volts and must be noise
+//		if(voltage_value < 30 && voltage_value > 30) {// TODO magic number
+//		  voltage_value = 0;
+//		}
 
 		voltage_array[itor] = voltage_value;
 
@@ -285,7 +286,6 @@ uint8_t voltage_on_full(node_ref args) {
 		} else {
 			new_voltage = (int32_t)new_voltage - (int32_t)voltage_value;
 		}
-
 	}
 
 	if(voltage_settling_counter > 0) {
@@ -316,13 +316,13 @@ uint8_t voltage_on_full(node_ref args) {
 		uint32_t threshold_msb_bit = (uint32_t)stable_msb_bit >>(uint32_t)WATTAGE_THRESHOLD_BITS;
 		if((uint32_t)diff_voltage > (uint32_t)threshold_msb_bit) {
 			voltage_is_interesting = TRUE;
-			if(stable_voltage < NOISE_THRESHOLD && new_voltage < NOISE_THRESHOLD) { //this check is to see if both are in the noise threshold
-				voltage_is_interesting = FALSE;  // I calculated this by doing average(abs(sin(x))) * NOISE * 200 data pts
-			}
 
+//			if(stable_voltage < NOISE_THRESHOLD && new_voltage < NOISE_THRESHOLD) { //this check is to see if both are in the noise threshold
+//				voltage_is_interesting = FALSE;  // I calculated this by doing average(abs(sin(x))) * NOISE * 200 data pts
+//			}
 			stable_voltage = new_voltage;
-
 		}
+
 
 		if(send_next_voltage) {
 			send_next_voltage = FALSE;

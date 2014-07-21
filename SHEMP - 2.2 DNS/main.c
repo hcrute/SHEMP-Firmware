@@ -49,6 +49,8 @@
  * - Fixed 58 compiler warnings.
  * - Added Watchdog
  *
+ * remove relay
+ *
  * Concerns:
  * If a global variable is being modified by multiple threads
  * (i.e., the main process, ISRs, and other hardware functions),
