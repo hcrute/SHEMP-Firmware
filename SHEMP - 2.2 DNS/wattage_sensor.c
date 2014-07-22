@@ -3,6 +3,11 @@
  *
  *  Created on: Jul 23, 2012
  *      Author: nabercro
+ *
+ *  Edit: Jul 22, 2014
+ *  	Simplified and fixed current calculations and "interesting" detections.
+ *  Author: mgsit
+ *  Notes: Wattage values not accurate below 30W, could be noise removal code.
  */
 //TODO REMOVE DEBUG INCLUDES
 #include <msp430.h>
@@ -10,10 +15,11 @@
 #include "wattage_sensor.h"
 
 #define VOL_CUR_PERIOD (12000/2400) // 5
-#define VOL_CUR_SIZE	(12000/(VOL_CUR_PERIOD*60) * 5) //5 60hz cycles, =200 Samples per cycle
+#define VOL_CUR_SIZE	(12000/(VOL_CUR_PERIOD*60) * 5) //5 * 60hz cycles, = 200 Samples
 #define WATTAGE_SIZE	(12) //1 second
 
-#define INTERESTING_THRESHOLD 3000
+#define INTERESTING_THRESHOLD 600 // 3172 corresponds to 0.5A AC over 5 cycles. 24.8 raw adc = 0.5A.
+#define WATTAGE_THRESHOLD_BITS 4
 #define CURRENT_NOISE 8 // = 0.16A
 
 uint8_t calculate_wattage();
@@ -43,13 +49,13 @@ int32_t power_low_passed;
 int32_t current_reference;
 int32_t voltage_reference;
 
-#define WATTAGE_THRESHOLD_BITS 4
 int32_t new_voltage;
 int32_t new_current;
 
 int32_t stable_voltage;
 int32_t stable_current;
 int32_t stable_wattage;
+
 
 uint16_t wattage_settling_counter;
 uint16_t voltage_settling_counter;
@@ -112,7 +118,9 @@ uint8_t sync_wattage_sensors() {
 }
 
 /*
- * Params node pointer
+ * This is were current values are put into array.
+ * Interesting detection is here.
+ * Current packet transmit flag is set here.
  */
 uint8_t current_on_full(node_ref args) {
 	int16_t * current_array = 0;
@@ -120,8 +128,7 @@ uint8_t current_on_full(node_ref args) {
 	int16_t previous_current_value = 0;
 	int16_t current_reading = 0;
 
-	// For "interesting" detection
-	new_current = 0;
+	new_current = 0; // For "interesting" detection
 
 	current_array = sensor_get_data_array(current_sensor); // get from sensor struct
 
@@ -129,23 +136,21 @@ uint8_t current_on_full(node_ref args) {
 	int32_t current_sum = 0;
 	uint16_t itor;
 
-	//Sum up current array and calc mean current
+	//Sum up current array and calculat average current
 	for(itor = 0; itor < VOL_CUR_SIZE; itor++) {
 		current_reading = current_array[itor];
-		// Since it is a sine wave, it is centered at 0, so lets sum them up
-		current_sum += current_reading;
+		current_sum += current_reading; // Since it is a sine wave, it is centered at 0, so lets sum them up
 	}
 	int32_t current_average = (int32_t)current_sum/(int32_t)VOL_CUR_SIZE;
 
-	// Could low pass it right here
+	// Could low pass it right here // offset compensation?
 	int32_t current_difference = (int32_t)current_average-(int32_t)current_reference;
 	current_reference += (int32_t)current_difference>>(int32_t)1; // Current difference from reference divide by 2 and add to new ref.
 
 	// Put current minus reference (current value) into current_array
 	for(itor = 0; itor < VOL_CUR_SIZE; itor++) {
 		current_reading = current_array[itor];
-		// Calculate Current
-		current_value = (int16_t)(current_reading-(int32_t)current_reference);
+		current_value = (int16_t)(current_reading-(int32_t)current_reference); // Calculate Current
 
 		// Check our threshold.  If it is under 10, then it must be noise - No load
 		if(current_value <= CURRENT_NOISE && current_value >= -CURRENT_NOISE) {
@@ -158,17 +163,13 @@ uint8_t current_on_full(node_ref args) {
 			previous_current_value = current_value;
 		}
 
-		current_array[itor] = current_value;
 
-		// Accumulate current values into new_current
-		if(current_value > 0) {
-			new_current = (int32_t)new_current + (int32_t)current_value;
-		} else {
-			new_current = (int32_t)new_current - (int32_t)current_value;
-		}
+		current_array[itor] = current_value;
+		// Accumulate current values into new_current = sum(abs(current_value))
+		new_current = (current_value > 0) ? new_current + (int32_t)current_value : new_current - (int32_t)current_value;
 	}
 
-
+	// After 12 new_currents set it to stable_current
 	if(current_settling_counter > 0) {
 		current_settling_counter--;
 		stable_current = new_current;
@@ -177,49 +178,24 @@ uint8_t current_on_full(node_ref args) {
 		current_is_ready = TRUE;
 	}
 
-
 	if(should_transmit_current) {
-		//detect if there is any changes
-		uint8_t bit_itor = 0;
-		uint32_t stable_msb_bit = (uint32_t)0x80000000; //just the top bit
-
-		// Find the MSB of stable current
-		for(bit_itor = 0; bit_itor < 32; bit_itor++) {
-			if((uint32_t)stable_current & (uint32_t)stable_msb_bit) break;
-			stable_msb_bit = (uint32_t)stable_msb_bit>>1;
-		}
-
 		// Find the difference in current levels
 		uint32_t diff_current;
-		if((uint32_t)stable_current > (uint32_t)new_current) {
-			diff_current = (uint32_t)stable_current - (uint32_t)new_current;
-		}
-		else diff_current = (uint32_t)new_current - (uint32_t)stable_current;
+		diff_current = (stable_current > new_current) ? (stable_current - new_current) : (new_current - stable_current);
 
-		// Check the size of of diff_current vs the msb bit
-		uint32_t threshold_msb_bit = (uint32_t)stable_msb_bit >>(uint32_t)WATTAGE_THRESHOLD_BITS;
-
-		if((uint32_t)diff_current > (uint32_t)threshold_msb_bit) {
+		if(diff_current > INTERESTING_THRESHOLD) {
 			current_is_interesting = TRUE;
-			//this check is to see if both are in the noise threshold
-			if(stable_current < INTERESTING_THRESHOLD && new_current < INTERESTING_THRESHOLD) {
-				current_is_interesting = FALSE;  // I calculated this by doing average(abs(sin(x))) * NOISE * 200 data pts
-			} // This does not scale.
 			stable_current = new_current;
 		}
-
 
 		if(send_next_current) {
 			send_next_current = FALSE;
 			current_is_interesting = FALSE;
-
 			encode_data_for_transmit(args);
 			continue_transmits();
 		} else if(current_is_interesting) {
 			current_reference -= (int32_t)current_difference>>(int32_t)1;
-
 			current_is_interesting = FALSE;
-
 			send_next_current = TRUE;
 			hold_transmits(); //want to get the next one too!
 			encode_data_and_old_data_for_transmit(args);
@@ -231,9 +207,10 @@ uint8_t current_on_full(node_ref args) {
 		current_is_ready = FALSE;
 		voltage_is_ready = FALSE;
 	}
-
 	return SUCCESS;
 }
+
+
 
 
 
