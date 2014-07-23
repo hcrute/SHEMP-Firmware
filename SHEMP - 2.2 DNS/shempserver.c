@@ -46,7 +46,7 @@ void reset_output_buffer() {
 #define HEADER_SIZE 42
 
 
-
+// takes structure and send message out.
 uint8_t encode_data_and_old_data_for_transmit(node_ref args) {
 	if(reset_output_flag) {
 		write_ptr = 0;
@@ -63,7 +63,11 @@ uint8_t encode_data_and_old_data_for_transmit(node_ref args) {
 	int16_t * old_array = sensor_get_old_array(s);
 	time_ref end_time = sensor_get_end_time(s);
 	time_ref period = sensor_get_period(s);
-	uint16_t size = sensor_get_size(s);
+	//----------------------------------------------------------------------------------------------
+//	uint16_t size = sensor_get_size(s);
+	uint16_t size = s->size_interesting_data;
+	//----------------------------------------------------------------------------------------------
+
 
 	if(!data_array) return FAILURE;
 	if(!old_array) return FAILURE;
@@ -106,12 +110,18 @@ uint8_t encode_data_and_old_data_for_transmit(node_ref args) {
 	write_2_bytes_to_string(&output_buffer[temp_ptr], (size*2));
 	temp_ptr += 2;
 
+
+
 	output_buffer[temp_ptr++] = 'D';
 	//data
-	memcpy(&output_buffer[temp_ptr], old_array, size*sizeof(uint16_t));
-	temp_ptr += size*sizeof(uint16_t);
-	memcpy(&output_buffer[temp_ptr], data_array, size*sizeof(uint16_t));
-	temp_ptr += size*sizeof(uint16_t);
+//	memcpy(&output_buffer[temp_ptr], old_array, size*sizeof(uint16_t));
+//	temp_ptr += size*sizeof(uint16_t);
+//	memcpy(&output_buffer[temp_ptr], data_array, size*sizeof(uint16_t));
+//	temp_ptr += size*sizeof(uint16_t);
+	//---------------------------------------------------------------------------------------------------------------
+	memcpy(&output_buffer[temp_ptr], s->interesting_data, size*sizeof(uint16_t));
+	//---------------------------------------------------------------------------------------------------------------
+
 
 	output_buffer[temp_ptr++] = 'X'; // end
 

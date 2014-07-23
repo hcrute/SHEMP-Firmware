@@ -6,8 +6,8 @@
  *
  *  Edit: Jul 22, 2014
  *  	Simplified and fixed current calculations and "interesting" detections.
+ *  	Wattage values not accurate below 30W, disabling noise removal code reduced the issue.
  *  Author: mgsit
- *  Notes: Wattage values not accurate below 30W, could be noise removal code.
  */
 //TODO REMOVE DEBUG INCLUDES
 #include <msp430.h>
@@ -15,12 +15,13 @@
 #include "wattage_sensor.h"
 
 #define VOL_CUR_PERIOD (12000/2400) // 5
-#define VOL_CUR_SIZE	(12000/(VOL_CUR_PERIOD*60) * 5) //5 * 60hz cycles, = 200 Samples
+//#define VOL_CUR_SIZE	(12000/(VOL_CUR_PERIOD*60) * 5) //5 * 60hz cycles, = 200 Samples
+#define VOL_CUR_SIZE	200
 #define WATTAGE_SIZE	(12) //1 second
 
 #define INTERESTING_THRESHOLD 600 // 3172 corresponds to 0.5A AC over 5 cycles. 24.8 raw adc = 0.5A.
 #define WATTAGE_THRESHOLD_BITS 4
-#define CURRENT_NOISE 8 // = 0.16A
+#define CURRENT_NOISE 0 //  8 = 0.16A
 
 uint8_t calculate_wattage();
 
@@ -132,6 +133,9 @@ uint8_t current_on_full(node_ref args) {
 
 	current_array = sensor_get_data_array(current_sensor); // get from sensor struct
 
+	// append current_array to interesting_data
+
+
 	// With the data acquired, now we can loop through it and fix it for the reference
 	int32_t current_sum = 0;
 	uint16_t itor;
@@ -198,7 +202,7 @@ uint8_t current_on_full(node_ref args) {
 			current_is_interesting = FALSE;
 			send_next_current = TRUE;
 			hold_transmits(); //want to get the next one too!
-			encode_data_and_old_data_for_transmit(args);
+//			encode_data_and_old_data_for_transmit(args);
 		}
 	}
 
@@ -300,7 +304,7 @@ uint8_t voltage_on_full(node_ref args) {
 			stable_voltage = new_voltage;
 		}
 
-
+		voltage_is_interesting = FALSE; /////////////////////////////////////////////////////////////////////////////
 		if(send_next_voltage) {
 			send_next_voltage = FALSE;
 			voltage_is_interesting = FALSE;

@@ -44,12 +44,14 @@
  *
  *
  * Summer 2014:
+ * Authors: mgsit, hcrute
  * - 12 kHz PLL interrupt is unstable. 11.5kHz - 12.5kHz. Causing timestamp to run faster/slower.
  * - Added timer b clocked from REFO to track timestamp
  * - Fixed 58 compiler warnings.
  * - Added Watchdog
+ * - Disabled remote relay feature
+ * - Fixed current calculations
  *
- * remove relay
  *
  * Concerns:
  * If a global variable is being modified by multiple threads
@@ -163,7 +165,7 @@ void toggle_relay() {
 #define BUTTON_2_DOWN (!(P1IN & BIT7))
 #define BUTTON_2_UP (P1IN & BIT7)
 void button1_toggled() {
-	toggle_relay();
+//	toggle_relay();
 }
 
 void button2_toggled() {
@@ -270,6 +272,8 @@ void main(void) {
 	setup_button_time_trigger = new_time();
 	setup_button_time_duration = new_time();
 	time_set_seconds(setup_button_time_duration, 2);
+
+	set_relay(ON);
 
 	_enable_interrupts();
 
@@ -505,7 +509,7 @@ uint8_t parse_shemp_command(uint8_t * string, uint16_t length) {
 		// Relay
 		cur_index++;
 		if (string[cur_index] == 'N') {
-			set_relay(ON);
+//			set_relay(ON);
 		} else if (string[cur_index] == 'F') {
 			set_relay(OFF);
 		}
