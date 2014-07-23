@@ -49,6 +49,10 @@ struct sensor{
 	int16_t * data_array;
 	int16_t * old_array;
 
+	int16_t * interesting_data;
+	uint16_t size_interesting_data;
+	uint16_t count_interesting_data;
+
 	action_ref on_full;
 
 	uint8_t (*delete_this)();
