@@ -15,7 +15,7 @@
 #include "uart.h"
 
 
-#define OUTPUT_BUFFER_SIZE 6000
+#define OUTPUT_BUFFER_SIZE 300
 
 void init_transmits();
 action_ref new_transmit_action(sensor_ref s);
@@ -34,7 +34,7 @@ uint8_t transmit_header();
 
 uint8_t transmit_data();
 
-
+uint8_t DebugPrint(const char * format);
 
 
 

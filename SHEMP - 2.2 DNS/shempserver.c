@@ -6,6 +6,7 @@
  */
 
 #include "shempserver.h"
+#include <string.h>
 
 // This is hardcoded serial number
 const uint8_t SERIAL_NUMBER[] = "000007";
@@ -179,17 +180,32 @@ uint8_t encode_data_for_transmit(node_ref args) {
 		output_buffer[temp_ptr++] = 'P'; //period
 		write_time_to_string(&output_buffer[temp_ptr], sensor_get_period(s));
 		temp_ptr += STRING_TO_TIME_LENGTH;
+		//if it is AC, then we want to transmit our 6000 length message of 7's (the diff starts at C)
+		//----------------------------------------------------------------------------------------------
+		if (sensor_get_type(s) == 'I') {
+			output_buffer[temp_ptr++] = 'C';
+			write_2_bytes_to_string(&output_buffer[temp_ptr], 200);
+			temp_ptr += 2;
 
-		output_buffer[temp_ptr++] = 'C';
-		write_2_bytes_to_string(&output_buffer[temp_ptr], sensor_get_size(s));
-		temp_ptr += 2;
+
+			output_buffer[temp_ptr++] = 'D';
+			//data
+			memcpy(&output_buffer[temp_ptr], s->interesting_data, 200*sizeof(uint16_t));
+			temp_ptr += 200 * 2;
+
+		} else {
+			output_buffer[temp_ptr++] = 'C';
+			write_2_bytes_to_string(&output_buffer[temp_ptr], sensor_get_size(s));
+			temp_ptr += 2;
 
 
+			output_buffer[temp_ptr++] = 'D';
+			//data
+			memcpy(&output_buffer[temp_ptr], array, sensor_get_size(s)*sizeof(uint16_t));
+			temp_ptr += sensor_get_size(s) * 2;
+		}
+		//----------------------------------------------------------------------------------------------
 
-		output_buffer[temp_ptr++] = 'D';
-		//data
-		memcpy(&output_buffer[temp_ptr], array, sensor_get_size(s)*sizeof(uint16_t));
-		temp_ptr += sensor_get_size(s) * 2;
 
 		output_buffer[temp_ptr++] = 'X'; // end
 
@@ -272,5 +288,32 @@ action_ref new_transmit_action(sensor_ref s) {
 
 	//d//debug_pop();
 	return tx;
+}
+
+/*
+ * @Param format, formatting characters
+ * Send message to server
+ */
+#define MAX_PRINT_LENGTH 6000
+
+uint8_t DebugPrint(const char * format) {
+	int format_length = strlen(format);
+	int length = 4 + strlen(format);
+	if (length > MAX_PRINT_LENGTH-1) return FAILURE;
+//	uint8_t out[MAX_PRINT_LENGTH];
+	uint8_t *out = output_buffer;
+	out[0] = 'D';
+	write_2_bytes_to_string(&out[1], length);
+	//loop copies format into out array
+	int i;
+	for (i = 0; i < format_length; i++) out[i + 3] = format[i];
+	out[i + 4] = 'X';
+
+	reset_ack();
+	uart_send_array(out, length);
+	if(wait_for(&have_ack, 500)) {
+		return SUCCESS;
+	}
+	return FAILURE;
 }
 

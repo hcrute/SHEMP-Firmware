@@ -100,12 +100,12 @@ sensor_ref new_sensor(uint8_t type, uint8_t channel, time_ref period, uint16_t d
 		s->old_array = malloc(data_array_size * sizeof(uint16_t));
 		if(!s->old_array) break;
 		//-----------------------------------------------------------------------------------------------
-		s->size_interesting_data = 200;
+		s->size_interesting_data = 400;
 		if (type == 'I') {
-			s->interesting_data = malloc(200*sizeof(uint16_t));
+			s->interesting_data = malloc(400*sizeof(uint16_t));
 			if (!s->interesting_data) break;
 			int i;
-			for (i = 0; i < 200; i++) s->interesting_data[i] = 7;
+			for (i = 0; i < 400; i++) s->interesting_data[i] = 5;
 		}
 		//-----------------------------------------------------------------------------------------------
 

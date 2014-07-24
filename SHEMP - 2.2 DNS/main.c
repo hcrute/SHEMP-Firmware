@@ -93,6 +93,7 @@ time_ref setup_button_time_trigger;
 time_ref setup_button_time_duration;
 uint32_t timer_B_seconds;
 
+
 // This is for handling AUX ports
 #define NUMBER_OF_AUX_PORTS 2
 typedef uint8_t (*Function) (void);
@@ -293,9 +294,6 @@ void main(void) {
 	// And go!!!
 	set_led_anim(led_start);
 
-
-
-
 	// MAIN LOOP
 	while(1) {
 		WDTCTL = WDTPW + WDTSSEL__ACLK + WDTIS_3 + WDTCNTCL; // Pat the Dog
@@ -361,6 +359,7 @@ void main(void) {
 					led_ping();
 					exit_command_mode(); 	// blocking
 					transmit_data();
+//					DebugPrint(shit);
 					reset_output_buffer();
 				}
 
